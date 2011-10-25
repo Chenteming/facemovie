@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FaceMovieModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="FaceMovieModelStoreContainer">
+    <EntitySet Name="UserSet" EntityType="FaceMovieModel.Store.UserSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MovieSet" EntityType="FaceMovieModel.Store.MovieSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserMovieSet" EntityType="FaceMovieModel.Store.UserMovieSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MovieSimilaritySet" EntityType="FaceMovieModel.Store.MovieSimilaritySet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="UserUserMovie" Association="FaceMovieModel.Store.UserUserMovie">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="UserMovie" EntitySet="UserMovieSet" />
+    </AssociationSet>
+    <AssociationSet Name="MovieUserMovie" Association="FaceMovieModel.Store.MovieUserMovie">
+      <End Role="Movie" EntitySet="MovieSet" />
+      <End Role="UserMovie" EntitySet="UserMovieSet" />
+    </AssociationSet>
+    <AssociationSet Name="MovieSimilarityMovie" Association="FaceMovieModel.Store.MovieSimilarityMovie">
+      <End Role="MovieSimilarity" EntitySet="MovieSimilaritySet" />
+      <End Role="Movie" EntitySet="MovieSet" />
+    </AssociationSet>
+    <AssociationSet Name="MovieSimilarityMovie1" Association="FaceMovieModel.Store.MovieSimilarityMovie1">
+      <End Role="MovieSimilarity" EntitySet="MovieSimilaritySet" />
+      <End Role="Movie" EntitySet="MovieSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="UserSet">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserFacebookToken" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserFacebookId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserFirstName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserLastName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserPictureLink" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MovieSet">
+    <Key>
+      <PropertyRef Name="MovieId" />
+    </Key>
+    <Property Name="MovieId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserMovieSet">
+    <Key>
+      <PropertyRef Name="UserMovieId" />
+    </Key>
+    <Property Name="UserMovieId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Ranking" Type="float" Nullable="false" />
+    <Property Name="User_UserId" Type="int" Nullable="false" />
+    <Property Name="Movie_MovieId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MovieSimilaritySet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Similarity" Type="float" Nullable="false" />
+    <Property Name="Movie_1_MovieId" Type="int" Nullable="false" />
+    <Property Name="Movie_2_MovieId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="UserUserMovie">
+    <End Role="User" Type="FaceMovieModel.Store.UserSet" Multiplicity="1" />
+    <End Role="UserMovie" Type="FaceMovieModel.Store.UserMovieSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="UserMovie">
+        <PropertyRef Name="User_UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MovieUserMovie">
+    <End Role="Movie" Type="FaceMovieModel.Store.MovieSet" Multiplicity="1" />
+    <End Role="UserMovie" Type="FaceMovieModel.Store.UserMovieSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Movie">
+        <PropertyRef Name="MovieId" />
+      </Principal>
+      <Dependent Role="UserMovie">
+        <PropertyRef Name="Movie_MovieId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MovieSimilarityMovie">
+    <End Role="MovieSimilarity" Type="FaceMovieModel.Store.MovieSimilaritySet" Multiplicity="*" />
+    <End Role="Movie" Type="FaceMovieModel.Store.MovieSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Movie">
+        <PropertyRef Name="MovieId" />
+      </Principal>
+      <Dependent Role="MovieSimilarity">
+        <PropertyRef Name="Movie_1_MovieId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MovieSimilarityMovie1">
+    <End Role="MovieSimilarity" Type="FaceMovieModel.Store.MovieSimilaritySet" Multiplicity="*" />
+    <End Role="Movie" Type="FaceMovieModel.Store.MovieSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Movie">
+        <PropertyRef Name="MovieId" />
+      </Principal>
+      <Dependent Role="MovieSimilarity">
+        <PropertyRef Name="Movie_2_MovieId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="FaceMovieModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="FaceMovieModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="UserSet" EntityType="FaceMovieModel.User" />
+          <EntitySet Name="MovieSet" EntityType="FaceMovieModel.Movie" />
+          <EntitySet Name="UserMovieSet" EntityType="FaceMovieModel.UserMovie" />
+          <AssociationSet Name="UserUserMovie" Association="FaceMovieModel.UserUserMovie">
+            <End Role="User" EntitySet="UserSet" />
+            <End Role="UserMovie" EntitySet="UserMovieSet" />
+          </AssociationSet>
+          <AssociationSet Name="MovieUserMovie" Association="FaceMovieModel.MovieUserMovie">
+            <End Role="Movie" EntitySet="MovieSet" />
+            <End Role="UserMovie" EntitySet="UserMovieSet" />
+          </AssociationSet>
+          <EntitySet Name="MovieSimilaritySet" EntityType="FaceMovieModel.MovieSimilarity" />
+          <AssociationSet Name="MovieSimilarityMovie" Association="FaceMovieModel.MovieSimilarityMovie">
+            <End Role="MovieSimilarity" EntitySet="MovieSimilaritySet" />
+            <End Role="Movie" EntitySet="MovieSet" />
+          </AssociationSet>
+          <AssociationSet Name="MovieSimilarityMovie1" Association="FaceMovieModel.MovieSimilarityMovie1">
+            <End Role="MovieSimilarity" EntitySet="MovieSimilaritySet" />
+            <End Role="Movie" EntitySet="MovieSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Type="Int32" Name="UserId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="UserFacebookToken" Nullable="false" />
+          <NavigationProperty Name="UserMovie" Relationship="FaceMovieModel.UserUserMovie" FromRole="User" ToRole="UserMovie" />
+          <Property Type="String" Name="UserFacebookId" Nullable="false" />
+          <Property Type="String" Name="UserFirstName" Nullable="false" />
+          <Property Type="String" Name="UserLastName" Nullable="false" />
+          <Property Type="String" Name="UserPictureLink" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="MovieId" />
+          </Key>
+          <Property Type="Int32" Name="MovieId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="UserMovie" Relationship="FaceMovieModel.MovieUserMovie" FromRole="Movie" ToRole="UserMovie" />
+          <NavigationProperty Name="MovieSimilarity" Relationship="FaceMovieModel.MovieSimilarityMovie1" FromRole="Movie" ToRole="MovieSimilarity" />
+        </EntityType>
+        <EntityType Name="UserMovie">
+          <Key>
+            <PropertyRef Name="UserMovieId" />
+          </Key>
+          <Property Type="Int32" Name="UserMovieId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Double" Name="Ranking" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="FaceMovieModel.UserUserMovie" FromRole="UserMovie" ToRole="User" />
+          <NavigationProperty Name="Movie" Relationship="FaceMovieModel.MovieUserMovie" FromRole="UserMovie" ToRole="Movie" />
+        </EntityType>
+        <Association Name="UserUserMovie">
+          <End Type="FaceMovieModel.User" Role="User" Multiplicity="1" />
+          <End Type="FaceMovieModel.UserMovie" Role="UserMovie" Multiplicity="*" />
+        </Association>
+        <Association Name="MovieUserMovie">
+          <End Type="FaceMovieModel.Movie" Role="Movie" Multiplicity="1" />
+          <End Type="FaceMovieModel.UserMovie" Role="UserMovie" Multiplicity="*" />
+        </Association>
+        <EntityType Name="MovieSimilarity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Movie_1" Relationship="FaceMovieModel.MovieSimilarityMovie" FromRole="MovieSimilarity" ToRole="Movie" />
+          <Property Type="Double" Name="Similarity" Nullable="false" />
+          <NavigationProperty Name="Movie_2" Relationship="FaceMovieModel.MovieSimilarityMovie1" FromRole="MovieSimilarity" ToRole="Movie" />
+        </EntityType>
+        <Association Name="MovieSimilarityMovie">
+          <End Type="FaceMovieModel.MovieSimilarity" Role="MovieSimilarity" Multiplicity="*" />
+          <End Type="FaceMovieModel.Movie" Role="Movie" Multiplicity="1" />
+        </Association>
+        <Association Name="MovieSimilarityMovie1">
+          <End Type="FaceMovieModel.MovieSimilarity" Role="MovieSimilarity" Multiplicity="1" />
+          <End Type="FaceMovieModel.Movie" Role="Movie" Multiplicity="1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FaceMovieModelStoreContainer" CdmEntityContainer="FaceMovieModelContainer">
+    <EntitySetMapping Name="UserSet">
+      <EntityTypeMapping TypeName="IsTypeOf(FaceMovieModel.User)">
+        <MappingFragment StoreEntitySet="UserSet">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserFacebookToken" ColumnName="UserFacebookToken" />
+          <ScalarProperty Name="UserFacebookId" ColumnName="UserFacebookId" />
+          <ScalarProperty Name="UserFirstName" ColumnName="UserFirstName" />
+          <ScalarProperty Name="UserLastName" ColumnName="UserLastName" />
+          <ScalarProperty Name="UserPictureLink" ColumnName="UserPictureLink" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MovieSet">
+      <EntityTypeMapping TypeName="IsTypeOf(FaceMovieModel.Movie)">
+        <MappingFragment StoreEntitySet="MovieSet">
+          <ScalarProperty Name="MovieId" ColumnName="MovieId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserMovieSet">
+      <EntityTypeMapping TypeName="IsTypeOf(FaceMovieModel.UserMovie)">
+        <MappingFragment StoreEntitySet="UserMovieSet">
+          <ScalarProperty Name="UserMovieId" ColumnName="UserMovieId" />
+          <ScalarProperty Name="Ranking" ColumnName="Ranking" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MovieSimilaritySet">
+      <EntityTypeMapping TypeName="IsTypeOf(FaceMovieModel.MovieSimilarity)">
+        <MappingFragment StoreEntitySet="MovieSimilaritySet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Similarity" ColumnName="Similarity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="UserUserMovie" TypeName="FaceMovieModel.UserUserMovie" StoreEntitySet="UserMovieSet">
+      <EndProperty Name="User">
+        <ScalarProperty Name="UserId" ColumnName="User_UserId" />
+      </EndProperty>
+      <EndProperty Name="UserMovie">
+        <ScalarProperty Name="UserMovieId" ColumnName="UserMovieId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="MovieUserMovie" TypeName="FaceMovieModel.MovieUserMovie" StoreEntitySet="UserMovieSet">
+      <EndProperty Name="Movie">
+        <ScalarProperty Name="MovieId" ColumnName="Movie_MovieId" />
+      </EndProperty>
+      <EndProperty Name="UserMovie">
+        <ScalarProperty Name="UserMovieId" ColumnName="UserMovieId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="MovieSimilarityMovie" TypeName="FaceMovieModel.MovieSimilarityMovie" StoreEntitySet="MovieSimilaritySet">
+      <EndProperty Name="Movie">
+        <ScalarProperty Name="MovieId" ColumnName="Movie_1_MovieId" />
+      </EndProperty>
+      <EndProperty Name="MovieSimilarity">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="MovieSimilarityMovie1" TypeName="FaceMovieModel.MovieSimilarityMovie1" StoreEntitySet="MovieSimilaritySet">
+      <EndProperty Name="Movie">
+        <ScalarProperty Name="MovieId" ColumnName="Movie_2_MovieId" />
+      </EndProperty>
+      <EndProperty Name="MovieSimilarity">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="FaceMovieModel" >
+        <EntityTypeShape EntityType="FaceMovieModel.User" Width="1.5" PointX="0.875" PointY="0.875" Height="2.364889322916667" />
+        <EntityTypeShape EntityType="FaceMovieModel.Movie" Width="1.5" PointX="6.25" PointY="1" Height="1.4033821614583335" />
+        <EntityTypeShape EntityType="FaceMovieModel.UserMovie" Width="1.5" PointX="3.75" PointY="0.875" Height="1.7879850260416665" />
+        <AssociationConnector Association="FaceMovieModel.UserUserMovie">
+          <ConnectorPoint PointX="2.375" PointY="1.7689925130208333" />
+          <ConnectorPoint PointX="3.75" PointY="1.7689925130208333" />
+        </AssociationConnector>
+        <AssociationConnector Association="FaceMovieModel.MovieUserMovie">
+          <ConnectorPoint PointX="6.25" PointY="1.7016910807291668" />
+          <ConnectorPoint PointX="5.25" PointY="1.7016910807291668" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="FaceMovieModel.MovieSimilarity" Width="1.5" PointX="6.25" PointY="3.75" Height="1.7879850260416657" />
+        <AssociationConnector Association="FaceMovieModel.MovieSimilarityMovie">
+          <ConnectorPoint PointX="7" PointY="3.75" />
+          <ConnectorPoint PointX="7" PointY="2.4033821614583335" />
+        </AssociationConnector>
+        <AssociationConnector Association="FaceMovieModel.MovieSimilarityMovie1">
+          <ConnectorPoint PointX="7.328125" PointY="3.75" />
+          <ConnectorPoint PointX="7.328125" PointY="2.59568359375" />
+        </AssociationConnector>
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
