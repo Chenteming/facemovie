@@ -3,7 +3,7 @@
 //     Copyright Interpool. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace InterpoolCloudWebRole.FacebookCommunication
+namespace FaceMovieApplication.FacebookCommunication
 {
     using System;
     using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace InterpoolCloudWebRole.FacebookCommunication
     using System.Linq;
     using System.Net;
     using System.Web;
-    using InterpoolCloudWebRole.Utilities;
+    using FaceMovieApplication.Utilities;
 
     /// <summary>
     /// Class statement OAuthFacebook
@@ -136,7 +136,7 @@ namespace InterpoolCloudWebRole.FacebookCommunication
         /// <returns>The url with a valid request token, or a null string.</returns>
         public string AuthorizationLinkGet()
         {
-            return string.Format("{0}?client_id={1}&redirect_uri={2}&scope=offline_access, email, user_about_me, friends_about_me, user_birthday, friends_birthday, user_hometown, friends_hometown, user_interests, friends_interests, user_likes, friends_likes", Authorize, this.ConsumerKey, this.CallBackUrl);
+            return string.Format("{0}?client_id={1}&redirect_uri={2}&scope=offline_access, user_about_me, friends_about_me, user_likes, friends_likes, publish_stream", Authorize, this.ConsumerKey, this.CallBackUrl);
         }
 
         /// <summary>
@@ -211,7 +211,8 @@ namespace InterpoolCloudWebRole.FacebookCommunication
             catch (Exception e)
             {
                 responseData = null;
-                throw new GameException("error_tokenNotValid", e);
+                //throw new GameException("error_tokenNotValid", e);
+                throw new Exception("error_tokenNotValid", e);
             }
 
             return responseData;
