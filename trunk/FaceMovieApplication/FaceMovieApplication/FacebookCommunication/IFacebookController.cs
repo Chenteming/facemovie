@@ -46,7 +46,7 @@ namespace FaceMovieApplication.FacebookCommunication
         /// <param name="game"> Parameter description for game goes here</param>
         /// <param name="limitSuspects"> Parameter description for limitSuspects goes here</param>
         /// <param name="context"> Parameter description for context goes here</param>
-        Dictionary<String, DataFacebookUser> GetUsersFacebookData(OAuthFacebook auth);
+        Dictionary<long, User> GetUsersFacebookData(OAuthFacebook auth);
         
     }
 }

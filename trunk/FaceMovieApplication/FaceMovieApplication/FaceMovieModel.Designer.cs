@@ -21,7 +21,7 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("FaceMovieModel", "UserUserMovie", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(FaceMovieApplication.User), "UserMovie", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(FaceMovieApplication.UserMovie))]
 [assembly: EdmRelationshipAttribute("FaceMovieModel", "MovieUserMovie", "Movie", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(FaceMovieApplication.Movie), "UserMovie", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(FaceMovieApplication.UserMovie))]
 [assembly: EdmRelationshipAttribute("FaceMovieModel", "MovieSimilarityMovie", "MovieSimilarity", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(FaceMovieApplication.MovieSimilarity), "Movie", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(FaceMovieApplication.Movie))]
-[assembly: EdmRelationshipAttribute("FaceMovieModel", "MovieSimilarityMovie1", "MovieSimilarity", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(FaceMovieApplication.MovieSimilarity), "Movie", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(FaceMovieApplication.Movie))]
+[assembly: EdmRelationshipAttribute("FaceMovieModel", "MovieSimilarityMovie1", "MovieSimilarity", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(FaceMovieApplication.MovieSimilarity), "Movie", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(FaceMovieApplication.Movie))]
 
 #endregion
 
@@ -194,10 +194,14 @@ namespace FaceMovieApplication
         /// Create a new Movie object.
         /// </summary>
         /// <param name="movieId">Initial value of the MovieId property.</param>
-        public static Movie CreateMovie(global::System.Int32 movieId)
+        /// <param name="movieFacebookPageId">Initial value of the MovieFacebookPageId property.</param>
+        /// <param name="movieName">Initial value of the MovieName property.</param>
+        public static Movie CreateMovie(global::System.Int32 movieId, global::System.Int64 movieFacebookPageId, global::System.String movieName)
         {
             Movie movie = new Movie();
             movie.MovieId = movieId;
+            movie.MovieFacebookPageId = movieFacebookPageId;
+            movie.MovieName = movieName;
             return movie;
         }
 
@@ -230,6 +234,54 @@ namespace FaceMovieApplication
         private global::System.Int32 _MovieId;
         partial void OnMovieIdChanging(global::System.Int32 value);
         partial void OnMovieIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int64 MovieFacebookPageId
+        {
+            get
+            {
+                return _MovieFacebookPageId;
+            }
+            set
+            {
+                OnMovieFacebookPageIdChanging(value);
+                ReportPropertyChanging("MovieFacebookPageId");
+                _MovieFacebookPageId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("MovieFacebookPageId");
+                OnMovieFacebookPageIdChanged();
+            }
+        }
+        private global::System.Int64 _MovieFacebookPageId;
+        partial void OnMovieFacebookPageIdChanging(global::System.Int64 value);
+        partial void OnMovieFacebookPageIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String MovieName
+        {
+            get
+            {
+                return _MovieName;
+            }
+            set
+            {
+                OnMovieNameChanging(value);
+                ReportPropertyChanging("MovieName");
+                _MovieName = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("MovieName");
+                OnMovieNameChanged();
+            }
+        }
+        private global::System.String _MovieName;
+        partial void OnMovieNameChanging(global::System.String value);
+        partial void OnMovieNameChanged();
 
         #endregion
     
@@ -472,20 +524,14 @@ namespace FaceMovieApplication
         /// Create a new User object.
         /// </summary>
         /// <param name="userId">Initial value of the UserId property.</param>
-        /// <param name="userFacebookToken">Initial value of the UserFacebookToken property.</param>
         /// <param name="userFacebookId">Initial value of the UserFacebookId property.</param>
         /// <param name="userFirstName">Initial value of the UserFirstName property.</param>
-        /// <param name="userLastName">Initial value of the UserLastName property.</param>
-        /// <param name="userPictureLink">Initial value of the UserPictureLink property.</param>
-        public static User CreateUser(global::System.Int32 userId, global::System.String userFacebookToken, global::System.String userFacebookId, global::System.String userFirstName, global::System.String userLastName, global::System.String userPictureLink)
+        public static User CreateUser(global::System.Int32 userId, global::System.Int64 userFacebookId, global::System.String userFirstName)
         {
             User user = new User();
             user.UserId = userId;
-            user.UserFacebookToken = userFacebookToken;
             user.UserFacebookId = userFacebookId;
             user.UserFirstName = userFirstName;
-            user.UserLastName = userLastName;
-            user.UserPictureLink = userPictureLink;
             return user;
         }
 
@@ -522,7 +568,7 @@ namespace FaceMovieApplication
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
         public global::System.String UserFacebookToken
         {
@@ -534,7 +580,7 @@ namespace FaceMovieApplication
             {
                 OnUserFacebookTokenChanging(value);
                 ReportPropertyChanging("UserFacebookToken");
-                _UserFacebookToken = StructuralObject.SetValidValue(value, false);
+                _UserFacebookToken = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("UserFacebookToken");
                 OnUserFacebookTokenChanged();
             }
@@ -548,7 +594,7 @@ namespace FaceMovieApplication
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String UserFacebookId
+        public global::System.Int64 UserFacebookId
         {
             get
             {
@@ -558,13 +604,13 @@ namespace FaceMovieApplication
             {
                 OnUserFacebookIdChanging(value);
                 ReportPropertyChanging("UserFacebookId");
-                _UserFacebookId = StructuralObject.SetValidValue(value, false);
+                _UserFacebookId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("UserFacebookId");
                 OnUserFacebookIdChanged();
             }
         }
-        private global::System.String _UserFacebookId;
-        partial void OnUserFacebookIdChanging(global::System.String value);
+        private global::System.Int64 _UserFacebookId;
+        partial void OnUserFacebookIdChanging(global::System.Int64 value);
         partial void OnUserFacebookIdChanged();
     
         /// <summary>
@@ -594,7 +640,7 @@ namespace FaceMovieApplication
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
         public global::System.String UserLastName
         {
@@ -606,7 +652,7 @@ namespace FaceMovieApplication
             {
                 OnUserLastNameChanging(value);
                 ReportPropertyChanging("UserLastName");
-                _UserLastName = StructuralObject.SetValidValue(value, false);
+                _UserLastName = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("UserLastName");
                 OnUserLastNameChanged();
             }
@@ -618,7 +664,7 @@ namespace FaceMovieApplication
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
         public global::System.String UserPictureLink
         {
@@ -630,7 +676,7 @@ namespace FaceMovieApplication
             {
                 OnUserPictureLinkChanging(value);
                 ReportPropertyChanging("UserPictureLink");
-                _UserPictureLink = StructuralObject.SetValidValue(value, false);
+                _UserPictureLink = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("UserPictureLink");
                 OnUserPictureLinkChanged();
             }
@@ -682,12 +728,10 @@ namespace FaceMovieApplication
         /// Create a new UserMovie object.
         /// </summary>
         /// <param name="userMovieId">Initial value of the UserMovieId property.</param>
-        /// <param name="ranking">Initial value of the Ranking property.</param>
-        public static UserMovie CreateUserMovie(global::System.Int32 userMovieId, global::System.Double ranking)
+        public static UserMovie CreateUserMovie(global::System.Int32 userMovieId)
         {
             UserMovie userMovie = new UserMovie();
             userMovie.UserMovieId = userMovieId;
-            userMovie.Ranking = ranking;
             return userMovie;
         }
 
@@ -724,26 +768,26 @@ namespace FaceMovieApplication
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.Double Ranking
+        public Nullable<global::System.Double> UserMovieRanking
         {
             get
             {
-                return _Ranking;
+                return _UserMovieRanking;
             }
             set
             {
-                OnRankingChanging(value);
-                ReportPropertyChanging("Ranking");
-                _Ranking = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Ranking");
-                OnRankingChanged();
+                OnUserMovieRankingChanging(value);
+                ReportPropertyChanging("UserMovieRanking");
+                _UserMovieRanking = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("UserMovieRanking");
+                OnUserMovieRankingChanged();
             }
         }
-        private global::System.Double _Ranking;
-        partial void OnRankingChanging(global::System.Double value);
-        partial void OnRankingChanged();
+        private Nullable<global::System.Double> _UserMovieRanking;
+        partial void OnUserMovieRankingChanging(Nullable<global::System.Double> value);
+        partial void OnUserMovieRankingChanged();
 
         #endregion
     

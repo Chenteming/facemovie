@@ -32,24 +32,26 @@
       <PropertyRef Name="UserId" />
     </Key>
     <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UserFacebookToken" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="UserFacebookId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserFacebookToken" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="UserFacebookId" Type="bigint" Nullable="false" />
     <Property Name="UserFirstName" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="UserLastName" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="UserPictureLink" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserLastName" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="UserPictureLink" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="MovieSet">
     <Key>
       <PropertyRef Name="MovieId" />
     </Key>
     <Property Name="MovieId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MovieFacebookPageId" Type="bigint" Nullable="false" />
+    <Property Name="MovieName" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="UserMovieSet">
     <Key>
       <PropertyRef Name="UserMovieId" />
     </Key>
     <Property Name="UserMovieId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Ranking" Type="float" Nullable="false" />
+    <Property Name="UserMovieRanking" Type="float" Nullable="true" />
     <Property Name="User_UserId" Type="int" Nullable="false" />
     <Property Name="Movie_MovieId" Type="int" Nullable="false" />
   </EntityType>
@@ -141,12 +143,12 @@
             <PropertyRef Name="UserId" />
           </Key>
           <Property Type="Int32" Name="UserId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="UserFacebookToken" Nullable="false" />
+          <Property Type="String" Name="UserFacebookToken" Nullable="true" />
           <NavigationProperty Name="UserMovie" Relationship="FaceMovieModel.UserUserMovie" FromRole="User" ToRole="UserMovie" />
-          <Property Type="String" Name="UserFacebookId" Nullable="false" />
+          <Property Type="Int64" Name="UserFacebookId" Nullable="false" />
           <Property Type="String" Name="UserFirstName" Nullable="false" />
-          <Property Type="String" Name="UserLastName" Nullable="false" />
-          <Property Type="String" Name="UserPictureLink" Nullable="false" />
+          <Property Type="String" Name="UserLastName" Nullable="true" />
+          <Property Type="String" Name="UserPictureLink" Nullable="true" />
         </EntityType>
         <EntityType Name="Movie">
           <Key>
@@ -155,15 +157,17 @@
           <Property Type="Int32" Name="MovieId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="UserMovie" Relationship="FaceMovieModel.MovieUserMovie" FromRole="Movie" ToRole="UserMovie" />
           <NavigationProperty Name="MovieSimilarity" Relationship="FaceMovieModel.MovieSimilarityMovie1" FromRole="Movie" ToRole="MovieSimilarity" />
+          <Property Type="Int64" Name="MovieFacebookPageId" Nullable="false" />
+          <Property Type="String" Name="MovieName" Nullable="false" />
         </EntityType>
         <EntityType Name="UserMovie">
           <Key>
             <PropertyRef Name="UserMovieId" />
           </Key>
           <Property Type="Int32" Name="UserMovieId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Double" Name="Ranking" Nullable="false" />
           <NavigationProperty Name="User" Relationship="FaceMovieModel.UserUserMovie" FromRole="UserMovie" ToRole="User" />
           <NavigationProperty Name="Movie" Relationship="FaceMovieModel.MovieUserMovie" FromRole="UserMovie" ToRole="Movie" />
+          <Property Type="Double" Name="UserMovieRanking" Nullable="true" />
         </EntityType>
         <Association Name="UserUserMovie">
           <End Type="FaceMovieModel.User" Role="User" Multiplicity="1" />
@@ -187,7 +191,7 @@
           <End Type="FaceMovieModel.Movie" Role="Movie" Multiplicity="1" />
         </Association>
         <Association Name="MovieSimilarityMovie1">
-          <End Type="FaceMovieModel.MovieSimilarity" Role="MovieSimilarity" Multiplicity="1" />
+          <End Type="FaceMovieModel.MovieSimilarity" Role="MovieSimilarity" Multiplicity="0..1" />
           <End Type="FaceMovieModel.Movie" Role="Movie" Multiplicity="1" />
         </Association>
       </Schema>
@@ -212,6 +216,8 @@
       <EntityTypeMapping TypeName="IsTypeOf(FaceMovieModel.Movie)">
         <MappingFragment StoreEntitySet="MovieSet">
           <ScalarProperty Name="MovieId" ColumnName="MovieId" />
+          <ScalarProperty Name="MovieFacebookPageId" ColumnName="MovieFacebookPageId" />
+          <ScalarProperty Name="MovieName" ColumnName="MovieName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -219,7 +225,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(FaceMovieModel.UserMovie)">
         <MappingFragment StoreEntitySet="UserMovieSet">
           <ScalarProperty Name="UserMovieId" ColumnName="UserMovieId" />
-          <ScalarProperty Name="Ranking" ColumnName="Ranking" />
+          <ScalarProperty Name="UserMovieRanking" ColumnName="UserMovieRanking" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -283,24 +289,24 @@
     <edmx:Diagrams>
       <Diagram Name="FaceMovieModel" >
         <EntityTypeShape EntityType="FaceMovieModel.User" Width="1.5" PointX="0.875" PointY="0.875" Height="2.364889322916667" />
-        <EntityTypeShape EntityType="FaceMovieModel.Movie" Width="1.5" PointX="6.25" PointY="1" Height="1.4033821614583335" />
-        <EntityTypeShape EntityType="FaceMovieModel.UserMovie" Width="1.5" PointX="3.75" PointY="0.875" Height="1.7879850260416665" />
+        <EntityTypeShape EntityType="FaceMovieModel.Movie" Width="1.5" PointX="6" PointY="0.875" Height="1.9802864583333331" />
+        <EntityTypeShape EntityType="FaceMovieModel.UserMovie" Width="1.5" PointX="3.375" PointY="0.875" Height="1.7879850260416665" />
         <AssociationConnector Association="FaceMovieModel.UserUserMovie">
           <ConnectorPoint PointX="2.375" PointY="1.7689925130208333" />
-          <ConnectorPoint PointX="3.75" PointY="1.7689925130208333" />
+          <ConnectorPoint PointX="3.375" PointY="1.7689925130208333" />
         </AssociationConnector>
         <AssociationConnector Association="FaceMovieModel.MovieUserMovie">
-          <ConnectorPoint PointX="6.25" PointY="1.7016910807291668" />
-          <ConnectorPoint PointX="5.25" PointY="1.7016910807291668" />
+          <ConnectorPoint PointX="6" PointY="1.7689925130208333" />
+          <ConnectorPoint PointX="4.875" PointY="1.7689925130208333" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="FaceMovieModel.MovieSimilarity" Width="1.5" PointX="6.25" PointY="3.75" Height="1.7879850260416657" />
-        <AssociationConnector Association="FaceMovieModel.MovieSimilarityMovie">
-          <ConnectorPoint PointX="7" PointY="3.75" />
-          <ConnectorPoint PointX="7" PointY="2.4033821614583335" />
+        <EntityTypeShape EntityType="FaceMovieModel.MovieSimilarity" Width="1.5" PointX="6" PointY="3.75" Height="1.7879850260416657" />
+        <AssociationConnector Association="FaceMovieModel.MovieSimilarityMovie" ManuallyRouted="true">
+          <ConnectorPoint PointX="6.4513742484032939" PointY="3.75" />
+          <ConnectorPoint PointX="6.4511113941086204" PointY="2.8552864583333331" />
         </AssociationConnector>
         <AssociationConnector Association="FaceMovieModel.MovieSimilarityMovie1">
-          <ConnectorPoint PointX="7.328125" PointY="3.75" />
-          <ConnectorPoint PointX="7.328125" PointY="2.59568359375" />
+          <ConnectorPoint PointX="7.1875" PointY="3.75" />
+          <ConnectorPoint PointX="7.1875" PointY="2.8552864583333331" />
         </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>

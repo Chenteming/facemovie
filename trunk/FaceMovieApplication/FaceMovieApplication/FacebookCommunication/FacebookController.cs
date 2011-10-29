@@ -18,6 +18,7 @@ namespace FaceMovieApplication.FacebookCommunication
      */
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using FaceMovieApplication.Utilities;
     
 
     /// <summary>
@@ -44,24 +45,99 @@ namespace FaceMovieApplication.FacebookCommunication
         /// <param name="game"> Parameter description for game goes here</param>
         /// <param name="limitSuspects"> Parameter description for limitSuspects goes here</param>
         /// <param name="context"> Parameter description for context goes here</param>
-        public Dictionary<String, DataFacebookUser> GetUsersFacebookData(OAuthFacebook auth)
+        public Dictionary<long, User> GetUsersFacebookData(OAuthFacebook auth)
         {
-            Dictionary<String, DataFacebookUser> dictDataFacebookUser = new Dictionary<String, DataFacebookUser>();
+            Dictionary<long, User> dictUser = new Dictionary<long, User>();
 
             // Get friends standard information
             fqlQuery = "SELECT+uid,first_name,last_name+FROM+user+WHERE+uid+IN+(SELECT+uid2+FROM+friend+WHERE+uid1=me())";
             url = String.Format("https://graph.facebook.com/fql?q={0}&access_token={1}", fqlQuery, auth.Token);
-            string jsonFriendInfo = auth.WebRequest(OAuthFacebook.Method.GET, url, String.Empty);
-            dictDataFacebookUser = this.GetFriendsStandardInfoByJson(jsonFriendInfo);
+            string json = auth.WebRequest(OAuthFacebook.Method.GET, url, String.Empty);
+            dictUser = this.GetFriendsStandardInfoByJson(json);
             // Parse the information returned by Facebook
 
             // Get friends favourite films (only the ids)
             fqlQuery = "SELECT+uid,page_id+FROM+page_fan+WHERE+type='MOVIE'+AND+uid+IN+(SELECT+uid2+FROM+friend+WHERE+uid1=me())";
             url = String.Format("https://graph.facebook.com/fql?q={0}&access_token={1}", fqlQuery, auth.Token);
-            jsonFriendInfo = auth.WebRequest(OAuthFacebook.Method.GET, url, String.Empty);
-            //friendData = this.GetFriendStandardInfoByJson(jsonFriendInfo);
+            json = auth.WebRequest(OAuthFacebook.Method.GET, url, String.Empty);
 
-            return dictDataFacebookUser;
+            Dictionary<long, Movie> dictMovies = this.GetMoviesInformationByJson(json, auth);
+            //friendData = this.GetFriendStandardInfoByJson(jsonFriendInfo);
+            this.AddMoviesInformationToFriends(dictUser, dictMovies, json);
+
+            return dictUser;
+        }
+
+        private Dictionary<long, Movie> GetMoviesInformationByJson(string json, OAuthFacebook auth)
+        {
+            Dictionary<long,Movie> dictMovies = new Dictionary<long,Movie>();
+            Movie movie;
+            JObject jsonObject = JObject.Parse(json);
+            string concatenatedPageIds = string.Empty;
+            long pageId;
+            int i = 0;
+            JArray jsonArray = (JArray)jsonObject["data"];
+            int count = jsonArray.Count;
+            while (i < count)
+            {
+                pageId = (long)jsonObject["data"][i]["page_id"];
+                if (String.IsNullOrEmpty(concatenatedPageIds))
+                {
+                    concatenatedPageIds = pageId.ToString();
+                }
+                else
+                {
+                    concatenatedPageIds += "," + pageId.ToString();
+                }
+                i++;
+            }
+            fqlQuery = "SELECT+name,page_id+FROM+page+WHERE+page_id+IN+(" + concatenatedPageIds + ")";
+            url = String.Format("https://graph.facebook.com/fql?q={0}&access_token={1}", fqlQuery, auth.Token);
+            string jsonMovies = auth.WebRequest(OAuthFacebook.Method.GET, url, String.Empty);
+            jsonObject = JObject.Parse(jsonMovies);
+            jsonArray = (JArray)jsonObject["data"];
+            count = jsonArray.Count;
+            i = 0;
+            while (i < count)
+            {
+                movie = new Movie();
+                movie.MovieFacebookPageId = (long)jsonObject["data"][i]["page_id"];
+                movie.MovieName = (string)jsonObject["data"][i]["name"];
+                dictMovies.Add(movie.MovieFacebookPageId, movie);
+                i++;
+            }
+            return dictMovies;
+        }
+
+        private void AddMoviesInformationToFriends(Dictionary<long, User> dictUser, Dictionary<long, Movie> dictMovies, string json)
+        {
+            JObject jsonObject = JObject.Parse(json);
+            JArray jsonArray = (JArray)jsonObject["data"];
+            int i = 0;
+            long pageId, facebookId;
+            User user;
+            Movie movie;
+            UserMovie userMovie;
+            int count = jsonArray.Count;
+            while (i < count)
+            {
+                pageId = (long)jsonObject["data"][i]["page_id"];
+                facebookId = (long)jsonObject["data"][i]["uid"];
+                try
+                {
+                    dictUser.TryGetValue(facebookId, out user);
+                    dictMovies.TryGetValue(pageId, out movie);
+                    userMovie = new UserMovie();
+                    userMovie.UserMovieRanking = Constants.DEFAULT_FACEBOOK_RANKING;
+                    user.UserMovie.Add(userMovie);
+                    userMovie.Movie = movie;
+                }
+                catch (Exception ex)
+                {
+                }
+                
+                i++;
+            }
         }
 
         /// <summary>
@@ -69,30 +145,31 @@ namespace FaceMovieApplication.FacebookCommunication
         /// <param name="jsonFriendInfo"> Parameter description for jsonFriendInfo goes here</param>
         /// <returns>
         /// Return results are described through the returns tag.</returns>
-        private Dictionary<String,DataFacebookUser> GetFriendsStandardInfoByJson(string jsonFriendInfo)
+        private Dictionary<long,User> GetFriendsStandardInfoByJson(string json)
         {
-            Dictionary<String, DataFacebookUser> dictDataFacebookUser = new Dictionary<string, DataFacebookUser>();
-            JObject jsonFriendObject = JObject.Parse(jsonFriendInfo);
-            
-            DataFacebookUser fbud = new DataFacebookUser();
-            
-            //// Gets standard friend data
-            // Error = if true rise exception when does not match token.
-            bool error = false;
-            fbud.FacebookUserId = (string)jsonFriendObject.SelectToken("id", error);
-            fbud.FirstName = (string)jsonFriendObject.SelectToken("first_name", error);
-            fbud.LastName = (string)jsonFriendObject.SelectToken("last_name", error);
-            fbud.PictureLink = (string)jsonFriendObject.SelectToken("picture", error);
-            fbud.Gender = (string)jsonFriendObject.SelectToken("gender", error);
+            Dictionary<long, User> dictUser = new Dictionary<long, User>();
+            JObject jsonObject = JObject.Parse(json);
+            int i = 0;
+            JArray jsonArray = (JArray)jsonObject["data"];
+            int friendsCount = jsonArray.Count;
+            User fbud;
+            while (i < friendsCount)
+            {
+                fbud = new User();
+                fbud.UserFacebookId = (long)jsonObject["data"][i]["uid"];
+                fbud.UserFirstName = (string)jsonObject["data"][i]["first_name"];
+                fbud.UserLastName = (string)jsonObject["data"][i]["last_name"];
+                dictUser.Add(fbud.UserFacebookId, fbud);
+                i++;
+            }
 
-            dictDataFacebookUser.Add(fbud.FacebookUserId, fbud);
-            return dictDataFacebookUser;
+            return dictUser;
         }
             /*
             string userId = dm.GetUserByToken(auth.Token, dm.GetContainer()).UserIdFacebook;
             if (!userId.Equals(string.Empty))
             {
-                DataFacebookUser fbud = new DataFacebookUser();
+                User fbud = new User();
                 fbud.UserId = userId;
                 fbud.OAuth = auth;
 
@@ -100,7 +177,7 @@ namespace FaceMovieApplication.FacebookCommunication
                 List<string> shuffleFriendsIds = Functions.ShuffleList<string>(friendsIds);
                 Suspect suspect;
                 List<Suspect> suspects = new List<Suspect>();
-                DataFacebookUser fbudOfSuspect; 
+                User fbudOfSuspect; 
 
                 //// Creates and stores the suspects for the current user
                 int i = 0;
@@ -182,9 +259,9 @@ namespace FaceMovieApplication.FacebookCommunication
         /// </summary>
         /// <param name="auth">Contains the token</param>
         /// <returns>Returns the data of the user with token auth.Token</returns>
-        public DataFacebookUser GetUserInfoByToken(OAuthFacebook auth)
+        public User GetUserInfoByToken(OAuthFacebook auth)
         {
-            DataFacebookUser userData = new DataFacebookUser();
+            User userData = new User();
             
             string url = String.Format("https://graph.facebook.com/me?access_token={0}", auth.Token);
             string jsonUserInfo = auth.WebRequest(OAuthFacebook.Method.GET, url, String.Empty);
@@ -208,10 +285,10 @@ namespace FaceMovieApplication.FacebookCommunication
         /// <param name="auth">Parameter description for auth goes here</param>
         /// <param name="userFriendId">Parameter description for userFriendId goes here</param>
         /// <returns>Return results are described through the returns tag</returns>
-        public DataFacebookUser GetFriendInfo(string userId, OAuthFacebook auth, string userFriendId)
+        public User GetFriendInfo(string userId, OAuthFacebook auth, string userFriendId)
         {
             ////OAuthFacebook auth = this.GetOAuthFacebook(userId);
-            DataFacebookUser friendData = new DataFacebookUser();
+            User friendData = new User();
 
             string url = String.Format("https://graph.facebook.com/{0}?access_token={1}", userFriendId, auth.Token);
             string jsonFriendInfo = auth.WebRequest(OAuthFacebook.Method.GET, url, String.Empty);
@@ -234,7 +311,7 @@ namespace FaceMovieApplication.FacebookCommunication
         /// <param name="jsonUserInfo"> Parameter description for jsonUserInfo goes here</param>
         /// <param name="userData"> Parameter description for userData goes here</param>
         /// <returns>Return results are described through the returns tag</returns>
-        private DataFacebookUser GetLikesInfoByJson(string jsonUserInfo, DataFacebookUser userData)
+        private User GetLikesInfoByJson(string jsonUserInfo, User userData)
         {
             JObject jsonUserObject = JObject.Parse(jsonUserInfo);
 
@@ -280,13 +357,13 @@ namespace FaceMovieApplication.FacebookCommunication
         /// </summary>
         /// <param name="jsonUserInfo">Parameter description for jsonUserInfo goes here</param>
         /// <returns>Return results are described through the returns tag</returns>
-        private DataFacebookUser GetUserStandardInfoByJson(string jsonUserInfo)
+        private User GetUserStandardInfoByJson(string jsonUserInfo)
         {
             //// It's the same code as GetFriendStandardInfo, and the caller must
             //// set what's needed in the UserId and IdFriend
             JObject jsonFriendObject = JObject.Parse(jsonUserInfo);
             List<string> friendsId = new List<string>();
-            DataFacebookUser fbud = new DataFacebookUser();
+            User fbud = new User();
             fbud.Birthday = string.Empty;
             fbud.Cinema = string.Empty;
             fbud.FirstName = string.Empty;
@@ -416,7 +493,7 @@ namespace FaceMovieApplication.FacebookCommunication
         /// <param name="fbudOfSuspect"> Parameter description for fbudOfSuspect goes here</param>
         /// <returns>
         /// Return results are described through the returns tag.</returns>
-        private Suspect NewSuspectFromFacebookUserData(DataFacebookUser fbudOfSuspect)
+        private Suspect NewSuspectFromFacebookUserData(User fbudOfSuspect)
         {
             Suspect suspect = new Suspect();
             suspect.SuspectFacebookId = (fbudOfSuspect.IdFriend == null) ? string.Empty : fbudOfSuspect.IdFriend;
@@ -441,7 +518,7 @@ namespace FaceMovieApplication.FacebookCommunication
         /// <param name="friendData"> Parameter description for friendData goes here</param>
         /// <returns>
         /// Return results are described through the returns tag.</returns>
-        private DataFacebookUser GetFriendLikesInfoByJson(string jsonFriendInfo, DataFacebookUser friendData)
+        private User GetFriendLikesInfoByJson(string jsonFriendInfo, User friendData)
         {
             JObject jsonFriendObject = JObject.Parse(jsonFriendInfo);
 
