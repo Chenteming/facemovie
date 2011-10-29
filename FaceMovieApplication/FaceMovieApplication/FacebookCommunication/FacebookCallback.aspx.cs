@@ -14,6 +14,7 @@ namespace FaceMovieApplication.FacebookCommunication
     using FaceMovieApplication;
     using FaceMovieApplication.Datatypes;
     using FaceMovieApplication.FacebookCommunication;
+    using FaceMovieApplication.Data;
     
     /// <summary>
     /// Partial class declaration Face
@@ -40,11 +41,13 @@ namespace FaceMovieApplication.FacebookCommunication
 
                 if (auth.Token.Length > 0)
                 {
+                    DataManager dm = new DataManager();
                     IFacebookController facebookController = new FacebookController();
                     //IDataManager dataManager = new DataManager();
                     FaceMovieModelContainer container = new FaceMovieModelContainer();
                     User user = new User();
-                    Dictionary<String,DataFacebookUser> usersData = facebookController.GetUsersFacebookData(auth);
+                    Dictionary<long,User> usersData = facebookController.GetUsersFacebookData(auth);
+                    dm.StoreUsersInformation(usersData,container);
                     /*
                     user.UserIdFacebook = userData.UserId;
                     user.UserTokenFacebook = auth.Token;

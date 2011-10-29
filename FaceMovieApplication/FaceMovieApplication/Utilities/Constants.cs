@@ -61,5 +61,16 @@ namespace FaceMovieApplication.Utilities
                 return "A00C4105122186E4F9F0DFD82CDF594DD866BC1F";
             }
         }
+
+        /// <summary>
+        /// Gets for the property
+        /// </summary>
+        public static double DEFAULT_FACEBOOK_RANKING
+        {
+            get
+            {
+                return 5;
+            }
+        }
     }
 }
