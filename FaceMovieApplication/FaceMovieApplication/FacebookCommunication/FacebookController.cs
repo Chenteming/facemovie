@@ -80,7 +80,7 @@ namespace FaceMovieApplication.FacebookCommunication
             int count = jsonArray.Count;
             while (i < count)
             {
-                pageId = (long)jsonObject["data"][i]["page_id"];
+                pageId = getPageId(jsonObject, i);
                 if (String.IsNullOrEmpty(concatenatedPageIds))
                 {
                     concatenatedPageIds = pageId.ToString();
@@ -101,7 +101,7 @@ namespace FaceMovieApplication.FacebookCommunication
             while (i < count)
             {
                 movie = new Movie();
-                movie.MovieFacebookPageId = (long)jsonObject["data"][i]["page_id"];
+                movie.MovieFacebookPageId = getPageId(jsonObject, i);
                 movie.MovieName = (string)jsonObject["data"][i]["name"];
                 dictMovies.Add(movie.MovieFacebookPageId, movie);
                 i++;
@@ -121,7 +121,7 @@ namespace FaceMovieApplication.FacebookCommunication
             int count = jsonArray.Count;
             while (i < count)
             {
-                pageId = (long)jsonObject["data"][i]["page_id"];
+                pageId = getPageId(jsonObject, i);
                 facebookId = (long)jsonObject["data"][i]["uid"];
                 try
                 {
@@ -165,6 +165,14 @@ namespace FaceMovieApplication.FacebookCommunication
 
             return dictUser;
         }
+
+        private long getPageId(JObject jsonObject, int i)
+        {
+            String pageIdString = jsonObject["data"][i]["page_id"].ToString();
+            if (pageIdString.StartsWith("\"")) pageIdString = pageIdString.Substring(1, pageIdString.Length - 2);
+            return long.Parse(pageIdString);
+        }
+
             /*
             string userId = dm.GetUserByToken(auth.Token, dm.GetContainer()).UserIdFacebook;
             if (!userId.Equals(string.Empty))
