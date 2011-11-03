@@ -728,10 +728,12 @@ namespace FaceMovieApplication
         /// Create a new UserMovie object.
         /// </summary>
         /// <param name="userMovieId">Initial value of the UserMovieId property.</param>
-        public static UserMovie CreateUserMovie(global::System.Int32 userMovieId)
+        /// <param name="userMovieRanking">Initial value of the UserMovieRanking property.</param>
+        public static UserMovie CreateUserMovie(global::System.Int32 userMovieId, global::System.Double userMovieRanking)
         {
             UserMovie userMovie = new UserMovie();
             userMovie.UserMovieId = userMovieId;
+            userMovie.UserMovieRanking = userMovieRanking;
             return userMovie;
         }
 
@@ -768,9 +770,9 @@ namespace FaceMovieApplication
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Double> UserMovieRanking
+        public global::System.Double UserMovieRanking
         {
             get
             {
@@ -785,8 +787,8 @@ namespace FaceMovieApplication
                 OnUserMovieRankingChanged();
             }
         }
-        private Nullable<global::System.Double> _UserMovieRanking;
-        partial void OnUserMovieRankingChanging(Nullable<global::System.Double> value);
+        private global::System.Double _UserMovieRanking;
+        partial void OnUserMovieRankingChanging(global::System.Double value);
         partial void OnUserMovieRankingChanged();
 
         #endregion

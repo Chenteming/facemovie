@@ -167,7 +167,7 @@
           <Property Type="Int32" Name="UserMovieId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="User" Relationship="FaceMovieModel.UserUserMovie" FromRole="UserMovie" ToRole="User" />
           <NavigationProperty Name="Movie" Relationship="FaceMovieModel.MovieUserMovie" FromRole="UserMovie" ToRole="Movie" />
-          <Property Type="Double" Name="UserMovieRanking" Nullable="true" />
+          <Property Type="Double" Name="UserMovieRanking" Nullable="false" />
         </EntityType>
         <Association Name="UserUserMovie">
           <End Type="FaceMovieModel.User" Role="User" Multiplicity="1" />
