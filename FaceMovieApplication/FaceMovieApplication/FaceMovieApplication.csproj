@@ -116,6 +116,7 @@
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
     <Compile Include="Datatypes\DataFacebookUser.cs" />
+    <Compile Include="Datatypes\DataUserMovieRating.cs" />
     <Compile Include="Data\DataManager.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -142,6 +143,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Algorithm\IItemBasedAlgorithm.cs" />
+    <Compile Include="Algorithm\ItemBasedAlgorithm.cs" />
     <Compile Include="Management\TestPage.aspx.cs">
       <DependentUpon>TestPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -157,6 +160,7 @@
     <Compile Include="Site.Master.designer.cs">
       <DependentUpon>Site.Master</DependentUpon>
     </Compile>
+    <Compile Include="Update\UpdateController.cs" />
     <Compile Include="Utilities\Constants.cs" />
   </ItemGroup>
   <ItemGroup>
