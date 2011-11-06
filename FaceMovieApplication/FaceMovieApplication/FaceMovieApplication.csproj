@@ -162,6 +162,7 @@
     </Compile>
     <Compile Include="Update\UpdateController.cs" />
     <Compile Include="Utilities\Constants.cs" />
+    <Compile Include="Utilities\Parameters.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

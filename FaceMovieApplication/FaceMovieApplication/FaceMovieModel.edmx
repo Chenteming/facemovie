@@ -10,6 +10,7 @@
     <EntitySet Name="MovieSet" EntityType="FaceMovieModel.Store.MovieSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="UserMovieSet" EntityType="FaceMovieModel.Store.UserMovieSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MovieSimilaritySet" EntityType="FaceMovieModel.Store.MovieSimilaritySet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Parameters" EntityType="FaceMovieModel.Store.Parameters" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="UserUserMovie" Association="FaceMovieModel.Store.UserUserMovie">
       <End Role="User" EntitySet="UserSet" />
       <End Role="UserMovie" EntitySet="UserMovieSet" />
@@ -51,7 +52,7 @@
       <PropertyRef Name="UserMovieId" />
     </Key>
     <Property Name="UserMovieId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UserMovieRanking" Type="float" Nullable="true" />
+    <Property Name="UserMovieRanking" Type="float" Nullable="false" />
     <Property Name="User_UserId" Type="int" Nullable="false" />
     <Property Name="Movie_MovieId" Type="int" Nullable="false" />
   </EntityType>
@@ -63,6 +64,14 @@
     <Property Name="Similarity" Type="float" Nullable="false" />
     <Property Name="Movie_1_MovieId" Type="int" Nullable="false" />
     <Property Name="Movie_2_MovieId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Parameters">
+    <Key>
+      <PropertyRef Name="ParameterId" />
+    </Key>
+    <Property Name="ParameterId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ParameterName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ParameterValue" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="UserUserMovie">
     <End Role="User" Type="FaceMovieModel.Store.UserSet" Multiplicity="1" />
@@ -137,6 +146,7 @@
             <End Role="MovieSimilarity" EntitySet="MovieSimilaritySet" />
             <End Role="Movie" EntitySet="MovieSet" />
           </AssociationSet>
+          <EntitySet Name="Parameters" EntityType="FaceMovieModel.Parameter" />
         </EntityContainer>
         <EntityType Name="User">
           <Key>
@@ -194,6 +204,14 @@
           <End Type="FaceMovieModel.MovieSimilarity" Role="MovieSimilarity" Multiplicity="0..1" />
           <End Type="FaceMovieModel.Movie" Role="Movie" Multiplicity="1" />
         </Association>
+        <EntityType Name="Parameter">
+          <Key>
+            <PropertyRef Name="ParameterId" />
+          </Key>
+          <Property Type="Int32" Name="ParameterId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ParameterName" Nullable="false" />
+          <Property Type="String" Name="ParameterValue" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -234,6 +252,15 @@
         <MappingFragment StoreEntitySet="MovieSimilaritySet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Similarity" ColumnName="Similarity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Parameters">
+      <EntityTypeMapping TypeName="IsTypeOf(FaceMovieModel.Parameter)">
+        <MappingFragment StoreEntitySet="Parameters">
+          <ScalarProperty Name="ParameterId" ColumnName="ParameterId" />
+          <ScalarProperty Name="ParameterName" ColumnName="ParameterName" />
+          <ScalarProperty Name="ParameterValue" ColumnName="ParameterValue" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -308,6 +335,7 @@
           <ConnectorPoint PointX="7.1875" PointY="3.75" />
           <ConnectorPoint PointX="7.1875" PointY="2.8552864583333331" />
         </AssociationConnector>
+        <EntityTypeShape EntityType="FaceMovieModel.Parameter" Width="1.5" PointX="3" PointY="3.75" Height="1.5956835937499996" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

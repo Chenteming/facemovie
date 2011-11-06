@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 10/29/2011 17:36:19
+-- Date Created: 11/05/2011 19:35:15
 -- Generated from EDMX file: C:\Users\Vicente\Documents\Facultad\5to\Recuperación de Información y Recomendaciones en la Web\Proyecto\FaceMovieApplication\trunk\FaceMovieApplication\FaceMovieApplication\FaceMovieModel.edmx
 -- --------------------------------------------------
 
@@ -73,7 +73,7 @@ GO
 -- Creating table 'UserMovieSet'
 CREATE TABLE [dbo].[UserMovieSet] (
     [UserMovieId] int IDENTITY(1,1) NOT NULL,
-    [UserMovieRanking] float  NULL,
+    [UserMovieRanking] float  NOT NULL,
     [User_UserId] int  NOT NULL,
     [Movie_MovieId] int  NOT NULL
 );
@@ -85,6 +85,14 @@ CREATE TABLE [dbo].[MovieSimilaritySet] (
     [Similarity] float  NOT NULL,
     [Movie_1_MovieId] int  NOT NULL,
     [Movie_2_MovieId] int  NOT NULL
+);
+GO
+
+-- Creating table 'Parameters'
+CREATE TABLE [dbo].[Parameters] (
+    [ParameterId] int IDENTITY(1,1) NOT NULL,
+    [ParameterName] nvarchar(max)  NOT NULL,
+    [ParameterValue] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -114,6 +122,12 @@ GO
 ALTER TABLE [dbo].[MovieSimilaritySet]
 ADD CONSTRAINT [PK_MovieSimilaritySet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [ParameterId] in table 'Parameters'
+ALTER TABLE [dbo].[Parameters]
+ADD CONSTRAINT [PK_Parameters]
+    PRIMARY KEY CLUSTERED ([ParameterId] ASC);
 GO
 
 -- --------------------------------------------------

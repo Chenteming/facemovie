@@ -136,6 +136,22 @@ namespace FaceMovieApplication
             }
         }
         private ObjectSet<MovieSimilarity> _MovieSimilaritySet;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Parameter> Parameters
+        {
+            get
+            {
+                if ((_Parameters == null))
+                {
+                    _Parameters = base.CreateObjectSet<Parameter>("Parameters");
+                }
+                return _Parameters;
+            }
+        }
+        private ObjectSet<Parameter> _Parameters;
 
         #endregion
         #region AddTo Methods
@@ -170,6 +186,14 @@ namespace FaceMovieApplication
         public void AddToMovieSimilaritySet(MovieSimilarity movieSimilarity)
         {
             base.AddObject("MovieSimilaritySet", movieSimilarity);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Parameters EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToParameters(Parameter parameter)
+        {
+            base.AddObject("Parameters", parameter);
         }
 
         #endregion
@@ -508,6 +532,113 @@ namespace FaceMovieApplication
         }
 
         #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="FaceMovieModel", Name="Parameter")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Parameter : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Parameter object.
+        /// </summary>
+        /// <param name="parameterId">Initial value of the ParameterId property.</param>
+        /// <param name="parameterName">Initial value of the ParameterName property.</param>
+        /// <param name="parameterValue">Initial value of the ParameterValue property.</param>
+        public static Parameter CreateParameter(global::System.Int32 parameterId, global::System.String parameterName, global::System.String parameterValue)
+        {
+            Parameter parameter = new Parameter();
+            parameter.ParameterId = parameterId;
+            parameter.ParameterName = parameterName;
+            parameter.ParameterValue = parameterValue;
+            return parameter;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ParameterId
+        {
+            get
+            {
+                return _ParameterId;
+            }
+            set
+            {
+                if (_ParameterId != value)
+                {
+                    OnParameterIdChanging(value);
+                    ReportPropertyChanging("ParameterId");
+                    _ParameterId = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ParameterId");
+                    OnParameterIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ParameterId;
+        partial void OnParameterIdChanging(global::System.Int32 value);
+        partial void OnParameterIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ParameterName
+        {
+            get
+            {
+                return _ParameterName;
+            }
+            set
+            {
+                OnParameterNameChanging(value);
+                ReportPropertyChanging("ParameterName");
+                _ParameterName = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ParameterName");
+                OnParameterNameChanged();
+            }
+        }
+        private global::System.String _ParameterName;
+        partial void OnParameterNameChanging(global::System.String value);
+        partial void OnParameterNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ParameterValue
+        {
+            get
+            {
+                return _ParameterValue;
+            }
+            set
+            {
+                OnParameterValueChanging(value);
+                ReportPropertyChanging("ParameterValue");
+                _ParameterValue = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ParameterValue");
+                OnParameterValueChanged();
+            }
+        }
+        private global::System.String _ParameterValue;
+        partial void OnParameterValueChanging(global::System.String value);
+        partial void OnParameterValueChanged();
+
+        #endregion
+    
     }
     
     /// <summary>

@@ -7,6 +7,6 @@ namespace FaceMovieApplication.Algorithm
 {
     interface IItemBasedAlgorithm
     {
-        double ComputeSimilarity(Movie movie1, Movie movie2);
+        double ComputeSimilarity(Movie movie1, Movie movie2, FaceMovieModelContainer context);
     }
 }
