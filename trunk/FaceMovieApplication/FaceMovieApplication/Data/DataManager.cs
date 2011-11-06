@@ -33,5 +33,31 @@ namespace FaceMovieApplication.Data
             }
             context.SaveChanges();
         }
+
+        /// <summary>
+        /// Description for Method.</summary>
+        /// <param name="name"> Parameter description for name goes here</param>
+        /// <returns>
+        /// Return results are described through the returns tag.</returns>
+        public string GetParameter(string name)
+        {
+            FaceMovieModelContainer context = new FaceMovieModelContainer();
+            IQueryable<string> res = from p in context.Parameters
+                                     where p.ParameterName == name
+                                     select p.ParameterValue;
+            if (res != null && res.Count() != 0)
+            {
+                return res.First();
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        public void DeleteAllMovieSimilarities(FaceMovieModelContainer context)
+        {
+            context.ExecuteStoreCommand("TRUNCATE TABLE MovieSimilaritySet");
+        }
     }
 }
