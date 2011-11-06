@@ -90,20 +90,26 @@ namespace FaceMovieApplication.Update
                         movieSimilarity = new MovieSimilarity();
                         movieSimilarity.Movie_1 = movie1;
                         movieSimilarity.Movie_2 = relatedMovie;
+                        if (movieSimilarity.Movie_1 == null || movieSimilarity.Movie_1Reference == null)
+                        {
+                            Debug.WriteLine("Movie nula!");
+                        }
+                        if (movieSimilarity.Movie_2 == null || movieSimilarity.Movie_2Reference == null)
+                        {
+                            Debug.WriteLine("Movie nula!");
+                        }
                         movieSimilarity.Similarity = iba.ComputeSimilarity(movie1, relatedMovie, context);
                         movieSimilaritySet.Add(movieSimilarity);
                     }
                     Debug.WriteLine(movie1.MovieId + " " + movie1.MovieName);
                     movieSimilaritySet.Sort(CompareMoviesBySimilarity);
                     movieSimilaritySet.Take(amountMovieSimilarities);
-                    //context.Refresh(System.Data.Objects.RefreshMode.ClientWins, movieSimilaritySet);
                     foreach (MovieSimilarity ms in movieSimilaritySet)
                     {
                         context.AddToMovieSimilaritySet(ms);
                     }
-                    context.SaveChanges();
-                    //context.Refresh(System.Data.Objects.RefreshMode.StoreWins
                 }
+                context.SaveChanges();
             }
             catch (Exception ex)
             {
