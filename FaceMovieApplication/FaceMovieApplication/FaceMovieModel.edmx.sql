@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 11/05/2011 19:35:15
--- Generated from EDMX file: C:\Users\Vicente\Documents\Facultad\5to\Recuperación de Información y Recomendaciones en la Web\Proyecto\FaceMovieApplication\trunk\FaceMovieApplication\FaceMovieApplication\FaceMovieModel.edmx
+-- Date Created: 11/09/2011 21:41:29
+-- Generated from EDMX file: C:\Documents and Settings\Administrador.BIBLIOTECA\Mis documentos\Visual Studio 2010\Projects\FaceMovieApplication\FaceMovieApplication\FaceMovieModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -45,6 +45,9 @@ IF OBJECT_ID(N'[dbo].[UserMovieSet]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[MovieSimilaritySet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[MovieSimilaritySet];
+GO
+IF OBJECT_ID(N'[dbo].[Parameters]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Parameters];
 GO
 
 -- --------------------------------------------------
