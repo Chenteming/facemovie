@@ -7,28 +7,20 @@ using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
+using System.Data.Objects;
 
 namespace FaceMovieApplication
 {
     public partial class WebForm1 : System.Web.UI.Page
     {
-        SqlDataAdapter da;
-        DataSet ds = new DataSet();
-        SqlCommand cmd = new SqlCommand();
-        SqlConnection con;
 
         public void BindData()
         {
-            con = new SqlConnection(ConfigurationManager.AppSettings["connect"]);
-            cmd.CommandText = "Select * from Movie";
-            cmd.Connection = con;
-            da = new SqlDataAdapter(cmd);
-            da.Fill(ds);
-            con.Open();
-            cmd.ExecuteNonQuery();
-            Grid.DataSource = ds;
+            FaceMovieModelContainer context = new FaceMovieModelContainer();
+
+
+            Grid.DataSource = context.MovieSet.Where(m => m.MovieName == "El Padrino");
             Grid.DataBind();
-            con.Close();
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -38,10 +30,7 @@ namespace FaceMovieApplication
 
         protected void ClickHandler(object sender, EventArgs e)
         {
-            if (!Page.IsPostBack)
-            {
-                BindData();
-            }
+            BindData();
         }
 
     }
