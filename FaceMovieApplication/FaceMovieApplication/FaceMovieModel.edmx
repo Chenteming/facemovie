@@ -201,7 +201,7 @@
           <End Type="FaceMovieModel.Movie" Role="Movie" Multiplicity="1" />
         </Association>
         <Association Name="MovieSimilarityMovie1">
-          <End Type="FaceMovieModel.MovieSimilarity" Role="MovieSimilarity" Multiplicity="0..1" />
+          <End Type="FaceMovieModel.MovieSimilarity" Role="MovieSimilarity" Multiplicity="*" />
           <End Type="FaceMovieModel.Movie" Role="Movie" Multiplicity="1" />
         </Association>
         <EntityType Name="Parameter">

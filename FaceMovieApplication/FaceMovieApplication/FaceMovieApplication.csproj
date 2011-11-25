@@ -64,7 +64,9 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="FacebookCommunication\FacebookCallback.aspx" />
     <Content Include="FaceMovieModel.edmx.sql" />
+    <Content Include="main.aspx" />
     <Content Include="Management\TestPage.aspx" />
+    <Content Include="Pages\FacebookRedirect.aspx" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
@@ -145,12 +147,26 @@
     </Compile>
     <Compile Include="Algorithm\IItemBasedAlgorithm.cs" />
     <Compile Include="Algorithm\ItemBasedAlgorithm.cs" />
+    <Compile Include="main.aspx.cs">
+      <DependentUpon>main.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="main.aspx.designer.cs">
+      <DependentUpon>main.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Management\TestPage.aspx.cs">
       <DependentUpon>TestPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Management\TestPage.aspx.designer.cs">
       <DependentUpon>TestPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\FacebookRedirect.aspx.cs">
+      <DependentUpon>FacebookRedirect.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\FacebookRedirect.aspx.designer.cs">
+      <DependentUpon>FacebookRedirect.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">

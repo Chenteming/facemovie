@@ -21,7 +21,7 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("FaceMovieModel", "UserUserMovie", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(FaceMovieApplication.User), "UserMovie", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(FaceMovieApplication.UserMovie))]
 [assembly: EdmRelationshipAttribute("FaceMovieModel", "MovieUserMovie", "Movie", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(FaceMovieApplication.Movie), "UserMovie", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(FaceMovieApplication.UserMovie))]
 [assembly: EdmRelationshipAttribute("FaceMovieModel", "MovieSimilarityMovie", "MovieSimilarity", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(FaceMovieApplication.MovieSimilarity), "Movie", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(FaceMovieApplication.Movie))]
-[assembly: EdmRelationshipAttribute("FaceMovieModel", "MovieSimilarityMovie1", "MovieSimilarity", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(FaceMovieApplication.MovieSimilarity), "Movie", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(FaceMovieApplication.Movie))]
+[assembly: EdmRelationshipAttribute("FaceMovieModel", "MovieSimilarityMovie1", "MovieSimilarity", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(FaceMovieApplication.MovieSimilarity), "Movie", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(FaceMovieApplication.Movie))]
 
 #endregion
 
@@ -340,33 +340,17 @@ namespace FaceMovieApplication
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("FaceMovieModel", "MovieSimilarityMovie1", "MovieSimilarity")]
-        public MovieSimilarity MovieSimilarity
+        public EntityCollection<MovieSimilarity> MovieSimilarity
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<MovieSimilarity>("FaceMovieModel.MovieSimilarityMovie1", "MovieSimilarity").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<MovieSimilarity>("FaceMovieModel.MovieSimilarityMovie1", "MovieSimilarity").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<MovieSimilarity> MovieSimilarityReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<MovieSimilarity>("FaceMovieModel.MovieSimilarityMovie1", "MovieSimilarity");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<MovieSimilarity>("FaceMovieModel.MovieSimilarityMovie1", "MovieSimilarity");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<MovieSimilarity>("FaceMovieModel.MovieSimilarityMovie1", "MovieSimilarity", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<MovieSimilarity>("FaceMovieModel.MovieSimilarityMovie1", "MovieSimilarity", value);
                 }
             }
         }

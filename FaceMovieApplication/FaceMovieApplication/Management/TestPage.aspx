@@ -24,7 +24,9 @@
     <br />
     <br />
     <asp:Button ID="UpdateSimilarities" runat="server" 
-        onclick="UpdateSimilarities_Click" Text="UpdateSimilarities" />
+        onclick="UpdateSimilarities_Click" Text="Update All Similarities" />
+    <asp:Button ID="SaveSimilarity" runat="server" onclick="SaveSimilarity_Click" 
+        Text="Save Similarity" />
     <br />
     <br />
     <asp:Label ID="LabelOut" runat="server"></asp:Label>

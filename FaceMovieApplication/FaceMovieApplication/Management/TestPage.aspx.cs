@@ -50,5 +50,30 @@ namespace FaceMovieApplication.Management
             UpdateController uc = new UpdateController();
             uc.UpdateSimilarities();
         }
+
+        protected void SaveSimilarity_Click(object sender, EventArgs e)
+        {
+            Movie movie1;
+            Movie movie2;
+            MovieSimilarity movieSimilarity;
+            IItemBasedAlgorithm iba = new ItemBasedAlgorithm();
+            FaceMovieModelContainer context = new FaceMovieModelContainer();
+            movieSimilarity = new MovieSimilarity();
+            try {
+                movie1 = context.MovieSet.Where(m => m.MovieName == TextBoxMovie1.Text).First();
+                movie2 = context.MovieSet.Where(m => m.MovieName == TextBoxMovie2.Text).First();
+                movieSimilarity.Movie_1 = movie1;
+                movieSimilarity.Movie_2 = movie2;
+                movieSimilarity.Similarity = iba.ComputeSimilarity(movie1, movie2, context);
+                context.AddToMovieSimilaritySet(movieSimilarity);
+                context.SaveChanges();
+
+                LabelOut.Text = "Se guardó la similaridad entre las películas con el valor " + movieSimilarity.Similarity.ToString();
+            }
+            catch (Exception ex)
+            {
+                LabelOut.Text = ex.Message;
+            }
+        }
     }
 }
