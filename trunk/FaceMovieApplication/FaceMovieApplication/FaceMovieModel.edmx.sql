@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 11/09/2011 21:41:29
--- Generated from EDMX file: C:\Documents and Settings\Administrador.BIBLIOTECA\Mis documentos\Visual Studio 2010\Projects\FaceMovieApplication\FaceMovieApplication\FaceMovieModel.edmx
+-- Date Created: 11/24/2011 23:01:45
+-- Generated from EDMX file: C:\Users\Vicente\Documents\Facultad\5to\Recuperación de Información y Recomendaciones en la Web\Proyecto\FaceMovieApplication\trunk\FaceMovieApplication\FaceMovieApplication\FaceMovieModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;

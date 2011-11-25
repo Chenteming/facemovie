@@ -26,49 +26,21 @@ namespace FaceMovieApplication.Update
             DataManager dm = new DataManager();
             MovieSimilarity movieSimilarity;
             IItemBasedAlgorithm iba = new ItemBasedAlgorithm();
-            List<MovieSimilarity> movieSimilaritySet;
+            List<MovieSimilarity> movieSimilaritySet, movieSimilarityTotalSet;
 
             int amountMovieSimilarities = int.Parse(dm.GetParameter(Parameters.AmountSimilarMovies));
-            //try
-            //{
-            //    dm.DeleteAllMovieSimilarities(context);
-            //    foreach (Movie movie1 in context.MovieSet)
-            //    {
-            //        movieSimilaritySet = new List<MovieSimilarity>();
-            //        foreach (Movie movie2 in context.MovieSet)
-            //        {
-            //            if (movie1.MovieId != movie2.MovieId)
-            //            {
-            //                movieSimilarity = new MovieSimilarity();
-            //                movieSimilarity.Movie_1 = movie1;
-            //                movieSimilarity.Movie_2 = movie2;
-            //                movieSimilarity.Similarity = ibm.ComputeSimilarity(movie1, movie2);
-            //                movieSimilaritySet.Add(movieSimilarity);
-            //            }
-            //        }
-            //        movieSimilaritySet.Sort(CompareMoviesBySimilarity);
-            //        movieSimilaritySet.Take(amountMovieSimilarities);
-            //        foreach (MovieSimilarity ms in movieSimilaritySet)
-            //        {
-            //            context.AddToMovieSimilaritySet(ms);
-            //        }
-            //    }
-            //    context.SaveChanges();
-            //}
-            //catch(Exception ex)
-            //{
-            //    throw ex;
-            //}
             List<DataUserMovieRating> listDataUserMovieRating = new List<DataUserMovieRating>();
             DataUserMovieRating userMovieRating;
             HashSet<Movie> relatedMovies;
-            Debug.WriteLine(" Hola");
             movieSimilaritySet = null;
+            movieSimilarityTotalSet = new List<MovieSimilarity>();
+            int i = 0;
             try
             {
-                dm.DeleteAllMovieSimilarities(context);
+                //dm.DeleteAllMovieSimilarities(context);
                 foreach (Movie movie1 in context.MovieSet)
                 {
+                    i++;
                     relatedMovies = new HashSet<Movie>();
                     var users = from us in context.UserMovieSet
                                 where us.Movie.MovieId == movie1.MovieId
@@ -90,20 +62,12 @@ namespace FaceMovieApplication.Update
                         movieSimilarity = new MovieSimilarity();
                         movieSimilarity.Movie_1 = movie1;
                         movieSimilarity.Movie_2 = relatedMovie;
-                        if (movieSimilarity.Movie_1 == null || movieSimilarity.Movie_1Reference == null)
-                        {
-                            Debug.WriteLine("Movie nula!");
-                        }
-                        if (movieSimilarity.Movie_2 == null || movieSimilarity.Movie_2Reference == null)
-                        {
-                            Debug.WriteLine("Movie nula!");
-                        }
                         movieSimilarity.Similarity = iba.ComputeSimilarity(movie1, relatedMovie, context);
                         movieSimilaritySet.Add(movieSimilarity);
                     }
                     Debug.WriteLine(movie1.MovieId + " " + movie1.MovieName);
                     movieSimilaritySet.Sort(CompareMoviesBySimilarity);
-                    movieSimilaritySet.Take(amountMovieSimilarities);
+                    movieSimilaritySet = movieSimilaritySet.Take(1).ToList();
                     foreach (MovieSimilarity ms in movieSimilaritySet)
                     {
                         context.AddToMovieSimilaritySet(ms);
@@ -113,7 +77,6 @@ namespace FaceMovieApplication.Update
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(movieSimilaritySet.ToString());
                 throw ex;
             }
         }

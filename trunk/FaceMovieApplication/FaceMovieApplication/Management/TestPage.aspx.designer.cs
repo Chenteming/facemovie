@@ -85,6 +85,15 @@ namespace FaceMovieApplication.Management {
         protected global::System.Web.UI.WebControls.Button UpdateSimilarities;
         
         /// <summary>
+        /// SaveSimilarity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button SaveSimilarity;
+        
+        /// <summary>
         /// LabelOut control.
         /// </summary>
         /// <remarks>
