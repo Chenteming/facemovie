@@ -6,6 +6,10 @@
         .grid th, .grid td { border: 1px solid #C0C0C0; padding: 5px; }
         .alt { background-color: #E8E8E8; color: #000; }
         .product { width: 200px; font-weight:bold;}
+        .empty { background-image: url('../empty.png'); width: 32px; height: 32px; }
+        .star { background-image: url('../star.png'); width: 32px; height: 32px; }
+        .filledstar { background-image: url('../filledstar.png'); width: 32px; height: 32px; }     
+
     </style>
 </asp:Content>
 
@@ -41,8 +45,24 @@
             <ItemStyle BackColor="#FFFBD6" ForeColor="#333333" />
             <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
         </asp:DataGrid>
+
     </div>
 
+
+    <asp:ScriptManager ID="asm" runat="server" />
+
+    <asp:Label ID="Label1" runat="server" /> <input type="submit" id="Submit1" runat="server" value="Rate!" />
+
+
+    <ajaxToolkit:Rating ID="MovieRating" runat="server"
+    CurrentRating="2"
+    MaxRating="5"
+    StarCssClass="star"
+    WaitingStarCssClass="star"
+    FilledStarCssClass="filledstar"
+    EmptyStarCssClass="empty"
+    /> 
+    
 </form>
 
 

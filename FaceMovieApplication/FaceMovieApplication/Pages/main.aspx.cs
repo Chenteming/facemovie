@@ -25,13 +25,12 @@ namespace FaceMovieApplication
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (Page.IsPostBack) { Label1.Text = "Your rating: " + MovieRating.CurrentRating; }
         }
 
         protected void ClickHandler(object sender, EventArgs e)
         {
             BindData();
         }
-
     }
 }
