@@ -22,6 +22,15 @@ namespace FaceMovieApplication.Management {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
+        /// LabelFacebook control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelFacebook;
+        
+        /// <summary>
         /// Login control.
         /// </summary>
         /// <remarks>
@@ -29,6 +38,42 @@ namespace FaceMovieApplication.Management {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Login;
+        
+        /// <summary>
+        /// LabelUpdateSection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelUpdateSection;
+        
+        /// <summary>
+        /// UpdateSimilarities control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button UpdateSimilarities;
+        
+        /// <summary>
+        /// ButtonUpdateMoviesInformation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonUpdateMoviesInformation;
+        
+        /// <summary>
+        /// LabelTest control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelTest;
         
         /// <summary>
         /// Movie1 control.
@@ -76,15 +121,6 @@ namespace FaceMovieApplication.Management {
         protected global::System.Web.UI.WebControls.Button Similarity;
         
         /// <summary>
-        /// UpdateSimilarities control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button UpdateSimilarities;
-        
-        /// <summary>
         /// SaveSimilarity control.
         /// </summary>
         /// <remarks>
@@ -92,6 +128,60 @@ namespace FaceMovieApplication.Management {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button SaveSimilarity;
+        
+        /// <summary>
+        /// ButtonRandomize control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonRandomize;
+        
+        /// <summary>
+        /// Movie control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Movie;
+        
+        /// <summary>
+        /// TextBoxMovieName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxMovieName;
+        
+        /// <summary>
+        /// ButtonInformation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonInformation;
+        
+        /// <summary>
+        /// LabelImagen control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelImagen;
+        
+        /// <summary>
+        /// ImageMovie control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image ImageMovie;
         
         /// <summary>
         /// LabelOut control.

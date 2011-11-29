@@ -46,6 +46,9 @@
     <Property Name="MovieId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="MovieFacebookPageId" Type="bigint" Nullable="false" />
     <Property Name="MovieName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="MovieRanking" Type="float" Nullable="true" />
+    <Property Name="MovieImageUrl" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="MovieGenre" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="UserMovieSet">
     <Key>
@@ -169,6 +172,9 @@
           <NavigationProperty Name="MovieSimilarity" Relationship="FaceMovieModel.MovieSimilarityMovie1" FromRole="Movie" ToRole="MovieSimilarity" />
           <Property Type="Int64" Name="MovieFacebookPageId" Nullable="false" />
           <Property Type="String" Name="MovieName" Nullable="false" />
+          <Property Type="Double" Name="MovieRanking" Nullable="true" />
+          <Property Type="String" Name="MovieImageUrl" Nullable="true" />
+          <Property Type="String" Name="MovieGenre" Nullable="true" />
         </EntityType>
         <EntityType Name="UserMovie">
           <Key>
@@ -236,6 +242,9 @@
           <ScalarProperty Name="MovieId" ColumnName="MovieId" />
           <ScalarProperty Name="MovieFacebookPageId" ColumnName="MovieFacebookPageId" />
           <ScalarProperty Name="MovieName" ColumnName="MovieName" />
+          <ScalarProperty Name="MovieRanking" ColumnName="MovieRanking" />
+          <ScalarProperty Name="MovieImageUrl" ColumnName="MovieImageUrl" />
+          <ScalarProperty Name="MovieGenre" ColumnName="MovieGenre" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -316,7 +325,7 @@
     <edmx:Diagrams>
       <Diagram Name="FaceMovieModel" >
         <EntityTypeShape EntityType="FaceMovieModel.User" Width="1.5" PointX="0.875" PointY="0.875" Height="2.364889322916667" />
-        <EntityTypeShape EntityType="FaceMovieModel.Movie" Width="1.5" PointX="6" PointY="0.875" Height="1.9802864583333331" />
+        <EntityTypeShape EntityType="FaceMovieModel.Movie" Width="1.5" PointX="6" PointY="0.875" Height="2.5571907552083331" />
         <EntityTypeShape EntityType="FaceMovieModel.UserMovie" Width="1.5" PointX="3.375" PointY="0.875" Height="1.7879850260416665" />
         <AssociationConnector Association="FaceMovieModel.UserUserMovie">
           <ConnectorPoint PointX="2.375" PointY="1.7689925130208333" />
@@ -327,13 +336,13 @@
           <ConnectorPoint PointX="4.875" PointY="1.7689925130208333" />
         </AssociationConnector>
         <EntityTypeShape EntityType="FaceMovieModel.MovieSimilarity" Width="1.5" PointX="6" PointY="3.75" Height="1.7879850260416657" />
-        <AssociationConnector Association="FaceMovieModel.MovieSimilarityMovie" ManuallyRouted="true">
-          <ConnectorPoint PointX="6.4513742484032939" PointY="3.75" />
-          <ConnectorPoint PointX="6.4511113941086204" PointY="2.8552864583333331" />
+        <AssociationConnector Association="FaceMovieModel.MovieSimilarityMovie" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.462890625" PointY="3.75" />
+          <ConnectorPoint PointX="6.462890625" PointY="3.4321907552083331" />
         </AssociationConnector>
         <AssociationConnector Association="FaceMovieModel.MovieSimilarityMovie1">
-          <ConnectorPoint PointX="7.1875" PointY="3.75" />
-          <ConnectorPoint PointX="7.1875" PointY="2.8552864583333331" />
+          <ConnectorPoint PointX="7.0439453125" PointY="3.75" />
+          <ConnectorPoint PointX="7.0439453125" PointY="3.4321907552083331" />
         </AssociationConnector>
         <EntityTypeShape EntityType="FaceMovieModel.Parameter" Width="1.5" PointX="3" PointY="3.75" Height="1.5956835937499996" />
       </Diagram>
