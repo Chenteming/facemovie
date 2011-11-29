@@ -14,14 +14,6 @@ namespace FaceMovieApplication.Update
     {
         public void UpdateSimilarities()
         {
-            /*
-             *  For Each movie1 in Movies
-             *      For Each movie2 <> movie1 in Movies
-             *          sim = ComputeSimilarity(movie1, movie2)
-             *          save(movie1, movie2, sim)
-             *      EndFor
-             * EndFor
-            */
             FaceMovieModelContainer context = new FaceMovieModelContainer();
             DataManager dm = new DataManager();
             MovieSimilarity movieSimilarity;
@@ -79,6 +71,34 @@ namespace FaceMovieApplication.Update
             {
                 throw ex;
             }
+        }
+
+        public void UpdateMoviesInformation()
+        {
+            FaceMovieModelContainer context = new FaceMovieModelContainer();
+            IMovieController mc = new MovieController();
+            Movie movie;
+            foreach (Movie m in context.MovieSet)
+            {
+                try
+                {
+                    //// Find with the IMDB api the information about the movie
+                    movie = mc.GetMovieInfoByTitle(m.MovieName);
+
+                    //// Store it
+                    m.MovieRanking = movie.MovieRanking;
+                    m.MovieImageUrl = movie.MovieImageUrl;
+                    m.MovieGenre = movie.MovieGenre;
+
+                    Debug.WriteLine(m.MovieId + " " + m.MovieName);
+                }
+                catch
+                {
+                    //// It some kind of error occurs during obtaining the information, the function
+                    //// continues bringing data from other movies.
+                }
+            }
+            context.SaveChanges();
         }
 
         private static int CompareMoviesBySimilarity(MovieSimilarity ms1, MovieSimilarity ms2)

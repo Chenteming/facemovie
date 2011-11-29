@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using FaceMovieApplication.FacebookCommunication;
 using FaceMovieApplication.Update;
 using FaceMovieApplication.Algorithm;
+using System.Diagnostics;
 
 namespace FaceMovieApplication.Management
 {
@@ -48,7 +49,15 @@ namespace FaceMovieApplication.Management
         protected void UpdateSimilarities_Click(object sender, EventArgs e)
         {
             UpdateController uc = new UpdateController();
-            uc.UpdateSimilarities();
+            try
+            {
+                uc.UpdateSimilarities();
+                LabelOut.Text = "Se actualizaron las similaridades entre las películas correctamente";
+            }
+            catch (Exception ex)
+            {
+                LabelOut.Text = ex.Message;
+            }
         }
 
         protected void SaveSimilarity_Click(object sender, EventArgs e)
@@ -75,5 +84,67 @@ namespace FaceMovieApplication.Management
                 LabelOut.Text = ex.Message;
             }
         }
+
+        protected void ButtonInformation_Click(object sender, EventArgs e)
+        {
+            IMovieController mc = new MovieController();
+            try
+            {
+                Movie movie = mc.GetMovieInfoByTitle(TextBoxMovieName.Text);
+                LabelOut.Text = "Title:" + movie.MovieName + " Genre: " + movie.MovieGenre + " Rating: " + movie.MovieRanking;
+                ImageMovie.ImageUrl = movie.MovieImageUrl;
+            }
+            catch (Exception ex)
+            {
+                LabelOut.Text = ex.Message;
+            }
+        }
+
+        protected void ButtonUpdateMoviesInformation_Click(object sender, EventArgs e)
+        {
+            UpdateController uc = new UpdateController();
+            try
+            {
+                uc.UpdateMoviesInformation();
+                LabelOut.Text = "Se actualizó la información de todas las películas correctamente";
+            }
+            catch (Exception ex)
+            {
+                LabelOut.Text = ex.Message;
+            }
+        }
+
+        protected void ButtonRandomize_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.RandomizeUsersRatings();
+                LabelOut.Text = "Se generaron ratings aleatorios para todas las películas";
+            }
+            catch (Exception ex)
+            {
+                LabelOut.Text = ex.Message;
+            }
+        }
+
+        private void RandomizeUsersRatings()
+        {
+            FaceMovieModelContainer context = new FaceMovieModelContainer();
+            Random random = new Random(DateTime.Now.Millisecond);
+            double rating;
+            foreach (UserMovie us in context.UserMovieSet)
+            {
+                rating = random.Next(0, 6);
+                rating = Math.Truncate(rating);
+                if (rating == 6)
+                {
+                    rating = 5;
+                }
+                us.UserMovieRanking = rating;
+                Debug.WriteLine(us.User.UserFirstName + " " + us.User.UserLastName + " " + us.Movie.MovieName);
+            }
+            context.SaveChanges();
+        }
+
     }
 }

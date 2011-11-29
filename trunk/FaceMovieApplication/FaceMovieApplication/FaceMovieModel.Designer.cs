@@ -306,6 +306,78 @@ namespace FaceMovieApplication
         private global::System.String _MovieName;
         partial void OnMovieNameChanging(global::System.String value);
         partial void OnMovieNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Double> MovieRanking
+        {
+            get
+            {
+                return _MovieRanking;
+            }
+            set
+            {
+                OnMovieRankingChanging(value);
+                ReportPropertyChanging("MovieRanking");
+                _MovieRanking = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("MovieRanking");
+                OnMovieRankingChanged();
+            }
+        }
+        private Nullable<global::System.Double> _MovieRanking;
+        partial void OnMovieRankingChanging(Nullable<global::System.Double> value);
+        partial void OnMovieRankingChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String MovieImageUrl
+        {
+            get
+            {
+                return _MovieImageUrl;
+            }
+            set
+            {
+                OnMovieImageUrlChanging(value);
+                ReportPropertyChanging("MovieImageUrl");
+                _MovieImageUrl = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("MovieImageUrl");
+                OnMovieImageUrlChanged();
+            }
+        }
+        private global::System.String _MovieImageUrl;
+        partial void OnMovieImageUrlChanging(global::System.String value);
+        partial void OnMovieImageUrlChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String MovieGenre
+        {
+            get
+            {
+                return _MovieGenre;
+            }
+            set
+            {
+                OnMovieGenreChanging(value);
+                ReportPropertyChanging("MovieGenre");
+                _MovieGenre = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("MovieGenre");
+                OnMovieGenreChanged();
+            }
+        }
+        private global::System.String _MovieGenre;
+        partial void OnMovieGenreChanging(global::System.String value);
+        partial void OnMovieGenreChanged();
 
         #endregion
     

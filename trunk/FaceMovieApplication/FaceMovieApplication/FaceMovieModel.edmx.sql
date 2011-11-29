@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 11/24/2011 23:01:45
--- Generated from EDMX file: C:\Users\Vicente\Documents\Facultad\5to\Recuperación de Información y Recomendaciones en la Web\Proyecto\FaceMovieApplication\trunk\FaceMovieApplication\FaceMovieApplication\FaceMovieModel.edmx
+-- Date Created: 11/28/2011 20:57:55
+-- Generated from EDMX file: C:\Users\Vicente\Documents\Facultad\5to\WIR\Proyecto\FaceMovieApplication\trunk\FaceMovieApplication\FaceMovieApplication\FaceMovieModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -69,7 +69,10 @@ GO
 CREATE TABLE [dbo].[MovieSet] (
     [MovieId] int IDENTITY(1,1) NOT NULL,
     [MovieFacebookPageId] bigint  NOT NULL,
-    [MovieName] nvarchar(max)  NOT NULL
+    [MovieName] nvarchar(max)  NOT NULL,
+    [MovieRanking] float  NULL,
+    [MovieImageUrl] nvarchar(max)  NULL,
+    [MovieGenre] nvarchar(max)  NULL
 );
 GO
 
