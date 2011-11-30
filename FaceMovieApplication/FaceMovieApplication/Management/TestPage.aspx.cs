@@ -134,14 +134,13 @@ namespace FaceMovieApplication.Management
             double rating;
             foreach (UserMovie us in context.UserMovieSet)
             {
-                rating = random.Next(0, 6);
+                rating = random.Next(1, 6);
                 rating = Math.Truncate(rating);
                 if (rating == 6)
                 {
                     rating = 5;
                 }
                 us.UserMovieRanking = rating;
-                Debug.WriteLine(us.User.UserFirstName + " " + us.User.UserLastName + " " + us.Movie.MovieName);
             }
             context.SaveChanges();
         }

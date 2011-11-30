@@ -49,24 +49,6 @@ namespace FaceMovieApplication.FacebookCommunication
                     Dictionary<long,User> usersData = facebookController.GetUsersFacebookData(auth);
                     dm.StoreUsersInformation(usersData,container);
                     /*
-                    user.UserIdFacebook = userData.UserId;
-                    user.UserTokenFacebook = auth.Token;
-                    user.UserLoginId = userData.Email;
-                    user.UserBirthday = (userData.Birthday == null) ? string.Empty : userData.Birthday;
-                    user.UserCinema = userData.Cinema;
-                    user.UserFirstName = userData.FirstName;
-                    user.UserGender = (userData.Gender == null) ? string.Empty : userData.Gender;
-                    user.UserHometown = userData.Hometown;
-                    user.UserLastName = userData.LastName;
-                    user.UserMusic = userData.Music;
-                    user.UserPictureLink = userData.PictureLink;
-                    user.UserTelevision = userData.Television;
-                    user.SubLevel = 0;
-                    string codLevel = dataManager.GetParameter(Parameters.LevelRookie, container);
-                    user.Level = container.Levels.Where(l => l.LevelName == codLevel).First();
-                    
-                    dataManager.StoreUser(user, container);
-
                     Response.Redirect(Constants.RedirectUrlAfterLoginFacebook);
                     */
                 }

@@ -49,20 +49,19 @@ namespace FaceMovieApplication.FacebookCommunication
         {
             Dictionary<long, User> dictUser = new Dictionary<long, User>();
 
-            // Get friends standard information
-            fqlQuery = "SELECT+uid,first_name,last_name+FROM+user+WHERE+uid+IN+(SELECT+uid2+FROM+friend+WHERE+uid1=me())";
+            // Get friends and user standard information
+            fqlQuery = "SELECT+uid,first_name,last_name+FROM+user+WHERE+uid+IN+(SELECT+uid2+FROM+friend+WHERE+uid1=me())+OR+uid=me()";
             url = String.Format("https://graph.facebook.com/fql?q={0}&access_token={1}", fqlQuery, auth.Token);
             string json = auth.WebRequest(OAuthFacebook.Method.GET, url, String.Empty);
             dictUser = this.GetFriendsStandardInfoByJson(json);
             // Parse the information returned by Facebook
 
-            // Get friends favourite films (only the ids)
-            fqlQuery = "SELECT+uid,page_id+FROM+page_fan+WHERE+type='MOVIE'+AND+uid+IN+(SELECT+uid2+FROM+friend+WHERE+uid1=me())";
+            // Get friends and user favourite films (only the ids)
+            fqlQuery = "SELECT+uid,page_id+FROM+page_fan+WHERE+type='MOVIE'+AND+(uid+IN+(SELECT+uid2+FROM+friend+WHERE+uid1=me())+OR+uid=me())";
             url = String.Format("https://graph.facebook.com/fql?q={0}&access_token={1}", fqlQuery, auth.Token);
             json = auth.WebRequest(OAuthFacebook.Method.GET, url, String.Empty);
 
             Dictionary<long, Movie> dictMovies = this.GetMoviesInformationByJson(json, auth);
-            //friendData = this.GetFriendStandardInfoByJson(jsonFriendInfo);
             this.AddMoviesInformationToFriends(dictUser, dictMovies, json);
 
             return dictUser;
