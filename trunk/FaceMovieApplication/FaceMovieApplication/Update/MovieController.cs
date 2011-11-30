@@ -46,7 +46,12 @@ namespace FaceMovieApplication.Update
             movie.MovieName = (string)jsonObject["Title"];
             movie.MovieRanking = double.Parse(((string)jsonObject["Rating"]).Replace(".",","));
             movie.MovieImageUrl = (string)jsonObject["Poster"];
-            movie.MovieGenre = (string)jsonObject["Genre"];
+            string movieGenres = (string)jsonObject["Genre"];
+            if (movieGenres.Contains(","))
+            {
+                movieGenres = (movieGenres.Split(','))[0];
+            }
+            movie.MovieGenre = movieGenres;
             return movie;
         }
 

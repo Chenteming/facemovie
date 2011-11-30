@@ -24,7 +24,6 @@ namespace FaceMovieApplication.Data
                     //// Updates the data of the user
                     userDB.UserFirstName = user.UserFirstName;
                     userDB.UserLastName = user.UserLastName;
-                    //// context.Detach(user);
                 }
                 else
                 {
@@ -51,7 +50,7 @@ namespace FaceMovieApplication.Data
             }
             else
             {
-                return string.Empty;
+                throw new Exception("No se encontró el parámetro con nombre " + name);
             }
         }
 
