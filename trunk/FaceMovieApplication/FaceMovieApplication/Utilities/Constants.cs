@@ -72,5 +72,16 @@ namespace FaceMovieApplication.Utilities
                 return 5;
             }
         }
+
+        /// <summary>
+        /// Gets for the property
+        /// </summary>
+        public static double FACEBOOK_MAX_ELEMENTS
+        {
+            get
+            {
+                return 200;
+            }
+        }
     }
 }

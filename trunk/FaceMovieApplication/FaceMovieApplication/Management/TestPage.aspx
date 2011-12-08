@@ -49,8 +49,21 @@
     <br />
     <asp:Label ID="Movie" runat="server" Text="Movie"></asp:Label>
     <asp:TextBox ID="TextBoxMovieName" runat="server"></asp:TextBox>
+    <asp:Button ID="ButtonCompleteInformation" runat="server" 
+        onclick="ButtonCompleteInformation_Click" Text="Get whole IMDB Information" />
     <asp:Button ID="ButtonInformation" runat="server" 
         onclick="ButtonInformation_Click" Text="Get IMDB Information" />
+    <br />
+    <br />
+    <asp:Label ID="LabelUser" runat="server" Text="User"></asp:Label>
+    <asp:TextBox ID="TextBoxUser" runat="server"></asp:TextBox>
+    <asp:Button ID="ButtonGetRecommendation" runat="server" 
+        onclick="ButtonGetRecommendation_Click" Text="Get Recommendation" />
+    <br />
+    <br />
+    <asp:HyperLink ID="HyperLinkIMDB" runat="server" Target="_blank" Visible="False">[HyperLinkIMDB]</asp:HyperLink>
+    <asp:Button ID="ButtonMovieInformation" runat="server" onclick="ButtonMovieInformation_Click" 
+        Text="Ver en IMDB" />
     <br />
     <br />
     <asp:Label ID="LabelImagen" runat="server" Text="Imagen:"></asp:Label>

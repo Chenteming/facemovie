@@ -133,6 +133,7 @@
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
     <Compile Include="Datatypes\DataFacebookUser.cs" />
+    <Compile Include="Datatypes\DataMovie.cs" />
     <Compile Include="Datatypes\DataUserMovieRating.cs" />
     <Compile Include="Data\DataManager.cs" />
     <Compile Include="Default.aspx.cs">

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FaceMovieApplication.Datatypes;
 
 namespace FaceMovieApplication.Update
 {
@@ -19,5 +20,10 @@ namespace FaceMovieApplication.Update
         /// Description for Method.</summary>
         /// <param name="movieTitle"> Parameter description for auth goes here</param>
         Movie GetMovieInfoByTitle(string movieTitle);
+
+        /// <summary>
+        /// Description for Method.</summary>
+        /// <param name="movieTitle"> Parameter description for auth goes here</param>
+        DataMovie GetMovieCompleteInfoByTitle(string movieTitle);
     }
 }

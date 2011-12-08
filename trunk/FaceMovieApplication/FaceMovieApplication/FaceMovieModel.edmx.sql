@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 11/28/2011 20:57:55
+-- Date Created: 12/05/2011 19:39:57
 -- Generated from EDMX file: C:\Users\Vicente\Documents\Facultad\5to\WIR\Proyecto\FaceMovieApplication\trunk\FaceMovieApplication\FaceMovieApplication\FaceMovieModel.edmx
 -- --------------------------------------------------
 

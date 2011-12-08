@@ -47,7 +47,7 @@ namespace FaceMovieApplication.FacebookCommunication
                     FaceMovieModelContainer container = new FaceMovieModelContainer();
                     User user = new User();
                     Dictionary<long,User> usersData = facebookController.GetUsersFacebookData(auth);
-                    dm.StoreUsersInformation(usersData,container);
+                    dm.StoreUsersInformation(usersData, container);
                     /*
                     Response.Redirect(Constants.RedirectUrlAfterLoginFacebook);
                     */

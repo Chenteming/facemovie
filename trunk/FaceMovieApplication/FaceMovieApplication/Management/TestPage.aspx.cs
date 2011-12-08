@@ -8,6 +8,9 @@ using FaceMovieApplication.FacebookCommunication;
 using FaceMovieApplication.Update;
 using FaceMovieApplication.Algorithm;
 using System.Diagnostics;
+using FaceMovieApplication.Datatypes;
+using FaceMovieApplication.Data;
+using FaceMovieApplication.Utilities;
 
 namespace FaceMovieApplication.Management
 {
@@ -65,23 +68,74 @@ namespace FaceMovieApplication.Management
             Movie movie1;
             Movie movie2;
             MovieSimilarity movieSimilarity;
+            List<MovieSimilarity> movieSimilaritySet;
+            HashSet<Movie> relatedMovies;
+            DataManager dm = new DataManager();
             IItemBasedAlgorithm iba = new ItemBasedAlgorithm();
             FaceMovieModelContainer context = new FaceMovieModelContainer();
             movieSimilarity = new MovieSimilarity();
-            try {
-                movie1 = context.MovieSet.Where(m => m.MovieName == TextBoxMovie1.Text).First();
-                movie2 = context.MovieSet.Where(m => m.MovieName == TextBoxMovie2.Text).First();
-                movieSimilarity.Movie_1 = movie1;
-                movieSimilarity.Movie_2 = movie2;
-                movieSimilarity.Similarity = iba.ComputeSimilarity(movie1, movie2, context);
-                context.AddToMovieSimilaritySet(movieSimilarity);
-                context.SaveChanges();
-
-                LabelOut.Text = "Se guardó la similaridad entre las películas con el valor " + movieSimilarity.Similarity.ToString();
-            }
-            catch (Exception ex)
+            if (String.IsNullOrEmpty(TextBoxMovie2.Text))
             {
-                LabelOut.Text = ex.Message;
+                context = new FaceMovieModelContainer();
+                movie1 = context.MovieSet.Where(m => m.MovieName == TextBoxMovie1.Text).First();
+                context.ExecuteStoreCommand("DELETE FROM MovieSimilaritySet WHERE Movie_1_MovieId = " + movie1.MovieId + ";");
+                context.SaveChanges();
+                context = new FaceMovieModelContainer();
+                movie1 = context.MovieSet.Where(m => m.MovieName == TextBoxMovie1.Text).First();
+                int amountMovieSimilarities = int.Parse(dm.GetParameter(Parameters.AmountSimilarMovies));
+                //// Do the same thing as in the foreach of the UpdateController
+                relatedMovies = new HashSet<Movie>();
+                var users = from us in context.UserMovieSet
+                            where us.Movie.MovieId == movie1.MovieId
+                            select us.User;
+                foreach (User user in users.AsEnumerable())
+                {
+                    var movies = from us in context.UserMovieSet
+                                 where us.User.UserId == user.UserId && us.Movie.MovieId != movie1.MovieId
+                                 select us.Movie;
+                    foreach (Movie m2 in movies.AsEnumerable())
+                    {
+                        relatedMovies.Add(m2);
+                    }
+                }
+
+                movieSimilaritySet = new List<MovieSimilarity>();
+                foreach (Movie relatedMovie in relatedMovies)
+                {
+                    movieSimilarity = new MovieSimilarity();
+                    movieSimilarity.Movie_1Reference.EntityKey = movie1.EntityKey;
+                    movieSimilarity.Movie_2Reference.EntityKey = relatedMovie.EntityKey;
+                    movieSimilarity.Similarity = iba.ComputeSimilarity(movie1, relatedMovie, context);
+                    movieSimilaritySet.Add(movieSimilarity);
+                }
+                Debug.WriteLine(movie1.MovieId + " " + movie1.MovieName);
+                movieSimilaritySet.Sort(CompareMoviesBySimilarity);
+                movieSimilaritySet.Reverse();
+                movieSimilaritySet = movieSimilaritySet.Take(amountMovieSimilarities).ToList();
+                foreach (MovieSimilarity ms in movieSimilaritySet)
+                {
+                    context.AddToMovieSimilaritySet(ms);
+                }
+                context.SaveChanges();
+            }
+            else
+            {
+                try
+                {
+                    movie1 = context.MovieSet.Where(m => m.MovieName == TextBoxMovie1.Text).First();
+                    movie2 = context.MovieSet.Where(m => m.MovieName == TextBoxMovie2.Text).First();
+                    movieSimilarity.Movie_1 = movie1;
+                    movieSimilarity.Movie_2 = movie2;
+                    movieSimilarity.Similarity = iba.ComputeSimilarity(movie1, movie2, context);
+                    context.AddToMovieSimilaritySet(movieSimilarity);
+                    context.SaveChanges();
+
+                    LabelOut.Text = "Se guardó la similaridad entre las películas con el valor " + movieSimilarity.Similarity.ToString();
+                }
+                catch (Exception ex)
+                {
+                    LabelOut.Text = ex.Message;
+                }
             }
         }
 
@@ -92,6 +146,22 @@ namespace FaceMovieApplication.Management
             {
                 Movie movie = mc.GetMovieInfoByTitle(TextBoxMovieName.Text);
                 LabelOut.Text = "Title:" + movie.MovieName + " Genre: " + movie.MovieGenre + " Rating: " + movie.MovieRanking;
+                ImageMovie.ImageUrl = movie.MovieImageUrl;
+            }
+            catch (Exception ex)
+            {
+                LabelOut.Text = ex.Message;
+            }
+        }
+
+        protected void ButtonCompleteInformation_Click(object sender, EventArgs e)
+        {
+            IMovieController mc = new MovieController();
+            try
+            {
+                DataMovie movie = mc.GetMovieCompleteInfoByTitle(TextBoxMovieName.Text);
+                LabelOut.Text = "Title:" + movie.MovieName + " Genre: " + movie.MovieGenre + " Rating: " + movie.MovieRanking + " Plot: " + movie.MoviePlot;
+                this.HyperLinkIMDB.NavigateUrl = movie.MovieUrl;
                 ImageMovie.ImageUrl = movie.MovieImageUrl;
             }
             catch (Exception ex)
@@ -145,5 +215,64 @@ namespace FaceMovieApplication.Management
             context.SaveChanges();
         }
 
+        protected void ButtonGetRecommendation_Click(object sender, EventArgs e)
+        {
+            RecommendationController rc = new RecommendationController();
+            try
+            {
+                List<DataUserMovieRating> movies = rc.UserGetRecommendation(int.Parse(TextBoxUser.Text));
+                LabelOut.Text = "";
+                foreach (DataUserMovieRating movie in movies)
+                {
+                    LabelOut.Text += movie.MovieId + " " + movie.Rating + " ";
+                }
+            }
+            catch (Exception ex)
+            {
+                LabelOut.Text = ex.Message;
+            }
+        }
+
+        private static int CompareMoviesBySimilarity(MovieSimilarity ms1, MovieSimilarity ms2)
+        {
+            if (ms1 == null)
+            {
+                if (ms2 == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            else
+            {
+                if (ms2 == null)
+                {
+                    return 1;
+                }
+                else
+                {
+                    if (ms1.Similarity > ms2.Similarity)
+                    {
+                        return 1;
+                    }
+                    else if (ms1.Similarity < ms2.Similarity)
+                    {
+                        return -1;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            }
+        }
+
+        protected void ButtonMovieInformation_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(HyperLinkIMDB.NavigateUrl);
+        }
     }
 }
