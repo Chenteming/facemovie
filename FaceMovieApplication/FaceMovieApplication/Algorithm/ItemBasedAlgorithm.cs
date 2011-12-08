@@ -68,7 +68,7 @@ namespace FaceMovieApplication.Algorithm
                 }
                 else
                 {
-                    userMovieRating.AverageRating = GetUserAverageByUserId(userMovieRating.UserId, umSet);
+                    userMovieRating.AverageRating = GetUserAverageByUserId(userMovieRating.UserId, context);
                     userMovieRatingTemp = userMovieRating;
                 }
                 listDataUserMovieRating.Add(userMovieRating);
@@ -76,9 +76,9 @@ namespace FaceMovieApplication.Algorithm
             return listDataUserMovieRating.ToArray();
         }
 
-        private double GetUserAverageByUserId(int userId, IQueryable<UserMovie> userMovieSet)
+        private double GetUserAverageByUserId(int userId, FaceMovieModelContainer context)
         {
-            var allRatings = from um in userMovieSet
+            var allRatings = from um in context.UserMovieSet
                              where um.User.UserId == userId
                              select um.UserMovieRanking;
             return allRatings.Average();

@@ -10,6 +10,7 @@ using System.Web;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using FaceMovieApplication.Datatypes;
 
 namespace FaceMovieApplication.Update
 {
@@ -38,6 +39,24 @@ namespace FaceMovieApplication.Update
 
         /// <summary>
         /// Description for Method.</summary>
+        /// <param name="movieTitle"> Parameter description for auth goes here</param>
+        public DataMovie GetMovieCompleteInfoByTitle(string movieTitle)
+        {
+            string url = this.ConstructUrlByTitle(movieTitle);
+            try
+            {
+                string json = this.WebRequest(url);
+                DataMovie movie = this.GetCompleteMovieInfoByJson(json);
+                return movie;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Description for Method.</summary>
         /// <param name="json"> Parameter description for auth goes here</param>
         private Movie GetMovieInfoByJson(string json)
         {
@@ -46,6 +65,27 @@ namespace FaceMovieApplication.Update
             movie.MovieName = (string)jsonObject["Title"];
             movie.MovieRanking = double.Parse(((string)jsonObject["Rating"]).Replace(".",","));
             movie.MovieImageUrl = (string)jsonObject["Poster"];
+            string movieGenres = (string)jsonObject["Genre"];
+            if (movieGenres.Contains(","))
+            {
+                movieGenres = (movieGenres.Split(','))[0];
+            }
+            movie.MovieGenre = movieGenres;
+            return movie;
+        }
+
+        /// <summary>
+        /// Description for Method.</summary>
+        /// <param name="json"> Parameter description for auth goes here</param>
+        private DataMovie GetCompleteMovieInfoByJson(string json)
+        {
+            JObject jsonObject = JObject.Parse(json);
+            DataMovie movie = new DataMovie();
+            movie.MovieName = (string)jsonObject["Title"];
+            movie.MovieRanking = double.Parse(((string)jsonObject["Rating"]).Replace(".", ","));
+            movie.MovieImageUrl = (string)jsonObject["Poster"];
+            movie.MoviePlot = (string)jsonObject["Plot"];
+            movie.MovieUrl = "www.imdb.com/title/" + (string)jsonObject["ID"];
             string movieGenres = (string)jsonObject["Genre"];
             if (movieGenres.Contains(","))
             {

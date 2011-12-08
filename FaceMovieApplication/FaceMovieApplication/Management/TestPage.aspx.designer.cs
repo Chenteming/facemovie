@@ -157,6 +157,15 @@ namespace FaceMovieApplication.Management {
         protected global::System.Web.UI.WebControls.TextBox TextBoxMovieName;
         
         /// <summary>
+        /// ButtonCompleteInformation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonCompleteInformation;
+        
+        /// <summary>
         /// ButtonInformation control.
         /// </summary>
         /// <remarks>
@@ -164,6 +173,51 @@ namespace FaceMovieApplication.Management {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonInformation;
+        
+        /// <summary>
+        /// LabelUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelUser;
+        
+        /// <summary>
+        /// TextBoxUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxUser;
+        
+        /// <summary>
+        /// ButtonGetRecommendation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonGetRecommendation;
+        
+        /// <summary>
+        /// HyperLinkIMDB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink HyperLinkIMDB;
+        
+        /// <summary>
+        /// ButtonMovieInformation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonMovieInformation;
         
         /// <summary>
         /// LabelImagen control.
