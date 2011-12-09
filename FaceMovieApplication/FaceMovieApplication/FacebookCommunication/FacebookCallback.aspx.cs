@@ -15,6 +15,7 @@ namespace FaceMovieApplication.FacebookCommunication
     using FaceMovieApplication.Datatypes;
     using FaceMovieApplication.FacebookCommunication;
     using FaceMovieApplication.Data;
+    using FaceMovieApplication.Utilities;
     
     /// <summary>
     /// Partial class declaration Face
@@ -48,9 +49,8 @@ namespace FaceMovieApplication.FacebookCommunication
                     User user = new User();
                     Dictionary<long,User> usersData = facebookController.GetUsersFacebookData(auth);
                     dm.StoreUsersInformation(usersData, container);
-                    /*
-                    Response.Redirect(Constants.RedirectUrlAfterLoginFacebook);
-                    */
+                    long userId = dm.GetUserIdByFacebookToken(auth.Token);
+                    Response.Redirect(Constants.REDIRECT_URL_AFTER_FACEBOOK_LOGIN + "?userid=" + userId);
                 }
             }
         }

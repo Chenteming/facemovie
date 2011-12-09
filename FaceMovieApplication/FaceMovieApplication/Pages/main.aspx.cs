@@ -18,7 +18,6 @@ namespace FaceMovieApplication
         {
             FaceMovieModelContainer context = new FaceMovieModelContainer();
 
-
             Grid.DataSource = context.MovieSet.Where(m => m.MovieName == "El Padrino");
             Grid.DataBind();
         }

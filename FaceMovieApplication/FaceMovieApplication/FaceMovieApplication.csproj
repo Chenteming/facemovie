@@ -79,7 +79,9 @@
     <Content Include="Management\TestPage.aspx" />
     <Content Include="Pages\empty.png" />
     <Content Include="Pages\FacebookRedirect.aspx" />
+    <Content Include="Pages\FaceMovie.aspx" />
     <Content Include="Pages\filledstar.png" />
+    <Content Include="Pages\Home.aspx" />
     <Content Include="Pages\main.aspx" />
     <Content Include="Pages\star.png" />
     <Content Include="Styles\Site.css" />
@@ -176,6 +178,20 @@
     </Compile>
     <Compile Include="Pages\FacebookRedirect.aspx.designer.cs">
       <DependentUpon>FacebookRedirect.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\FaceMovie.aspx.cs">
+      <DependentUpon>FaceMovie.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\FaceMovie.aspx.designer.cs">
+      <DependentUpon>FaceMovie.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Home.aspx.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Home.aspx.designer.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\main.aspx.cs">
       <DependentUpon>main.aspx</DependentUpon>

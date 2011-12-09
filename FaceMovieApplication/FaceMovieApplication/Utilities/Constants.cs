@@ -10,17 +10,6 @@ namespace FaceMovieApplication.Utilities
         /// <summary>
         /// Gets for the property
         /// </summary>
-        public static string RedirectUrlAfterLoginFacebook
-        {
-            get
-            {
-                return "http://127.0.0.1:81/LoginSuccess.aspx/";
-            }
-        }
-
-        /// <summary>
-        /// Gets for the property
-        /// </summary>
         public static string ConsumerKey
         {
             get
@@ -83,5 +72,17 @@ namespace FaceMovieApplication.Utilities
                 return 200;
             }
         }
+
+        /// <summary>
+        /// Gets for the property
+        /// </summary>
+        public static string REDIRECT_URL_AFTER_FACEBOOK_LOGIN
+        {
+            get
+            {
+                return "http://localhost:1222/Pages/FaceMovie.aspx";
+            }
+        }
+
     }
 }
