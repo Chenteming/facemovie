@@ -37,10 +37,6 @@ namespace FaceMovieApplication.Data
                     }
                 }
 
-                //if (user.UserFacebookId == 1303567189)
-                //{
-                //    int i = 0;
-                //}
                 this.StoreUser(user, context);
             }
 
@@ -81,6 +77,7 @@ namespace FaceMovieApplication.Data
                 User userDB = context.UserSet.Where(u => u.UserFacebookId == user.UserFacebookId).First();
                 userDB.UserFirstName = user.UserFirstName;
                 userDB.UserLastName = user.UserLastName;
+                userDB.UserFacebookToken = user.UserFacebookToken;
             }
             else
             {
@@ -153,6 +150,20 @@ namespace FaceMovieApplication.Data
         public void DeleteAllMovieSimilarities(FaceMovieModelContainer context)
         {
             context.ExecuteStoreCommand("TRUNCATE TABLE MovieSimilaritySet");
+        }
+
+        public long GetUserIdByFacebookToken(string token)
+        {
+            FaceMovieModelContainer context = new FaceMovieModelContainer();
+            try
+            {
+                User user = context.UserSet.Where(u => u.UserFacebookToken == token).First();
+                return user.UserId;
+            }
+            catch
+            {
+                throw new Exception("No existe usuario");
+            }
         }
     }
 }

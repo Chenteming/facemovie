@@ -52,12 +52,18 @@ namespace FaceMovieApplication.FacebookCommunication
             Dictionary<long, Movie> dictMovies = new Dictionary<long,Movie>();
             List<string> listConcatenatedUsersIds;
 
-            // Get friends and user standard information
+            //// Get friends and user standard information
             fqlQuery = "SELECT+uid,first_name,last_name+FROM+user+WHERE+uid+IN+(SELECT+uid2+FROM+friend+WHERE+uid1=me())+OR+uid=me()";
             url = String.Format("https://graph.facebook.com/fql?q={0}&access_token={1}", fqlQuery, auth.Token);
             string json = auth.WebRequest(OAuthFacebook.Method.GET, url, String.Empty);
             dictUser = this.GetFriendsStandardInfoByJson(json, out listConcatenatedUsersIds);
 
+            //// Get friends and user standard information
+            fqlQuery = "SELECT+uid+FROM+user+WHERE+uid+=me()";
+            url = String.Format("https://graph.facebook.com/fql?q={0}&access_token={1}", fqlQuery, auth.Token);
+            json = auth.WebRequest(OAuthFacebook.Method.GET, url, String.Empty);
+            this.SaveCurrentUserTokenByJson(json, auth.Token, dictUser);
+            
             //// Each concatenatedUsersIds contains at most FACEBOOK_MAX_ELEMENTS elements (because it seems that
             //// Facebook has a limit for returning results for some queries)
             foreach (string concatenatedUsersIds in listConcatenatedUsersIds)
@@ -74,6 +80,18 @@ namespace FaceMovieApplication.FacebookCommunication
             }
 
             return dictUser;
+        }
+
+        private void SaveCurrentUserTokenByJson(string json, string token, Dictionary<long, User> dictUser)
+        {
+            User user;
+            JObject jsonObject = JObject.Parse(json);
+            long UserFacebookId = (long)jsonObject["data"][0]["uid"];
+            dictUser.TryGetValue(UserFacebookId, out user);
+            if (user != null)
+            {
+                user.UserFacebookToken = token;
+            }
         }
 
         private void GetMoviesInformationByJson(string json, OAuthFacebook auth, Dictionary<long,Movie> dictMovies)

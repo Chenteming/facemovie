@@ -12,11 +12,14 @@ namespace FaceMovieApplication
         {
             List<DataUserMovieRating> movies = new List<DataUserMovieRating>();
             FaceMovieModelContainer context = new FaceMovieModelContainer();
-            var candidateUserMovies =   from um in context.UserMovieSet
-                                        where um.User.UserId == userId
-                                        select um.Movie.MovieId;
+            var userMovies = from um in context.UserMovieSet
+                             where um.User.UserId == userId
+                             select um.Movie.MovieId;
+            var userSimilarMovies = from um in context.MovieSimilaritySet
+                                    where userMovies.Contains(um.Movie_1.MovieId) && (!userMovies.Contains(um.Movie_2.MovieId))
+                                    select um.Movie_2.MovieId;
             var candidateMovies = from movie in context.MovieSet
-                                  where candidateUserMovies.Contains(movie.MovieId)
+                                  where userSimilarMovies.Contains(movie.MovieId)
                                   select movie;
             var userMoviesIds = from um in context.UserMovieSet
                                 where um.User.UserId == userId
@@ -39,7 +42,7 @@ namespace FaceMovieApplication
                         //// If the user rated the movie
                         if (userRating != null && userRating.Count() > 0)
                         {
-                            upperSum += userRating.First();
+                            upperSum += userRating.First() * ms.Similarity;
                         }
                     }
 
