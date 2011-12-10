@@ -58,13 +58,13 @@ namespace FaceMovieApplication.Pages {
         protected global::System.Web.UI.WebControls.Label LabelMovieGenre;
         
         /// <summary>
-        /// LiteralMovieGenre control.
+        /// LabelGenre control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal LiteralMovieGenre;
+        protected global::System.Web.UI.WebControls.Label LabelGenre;
         
         /// <summary>
         /// LabelMoviePlot control.
@@ -76,13 +76,13 @@ namespace FaceMovieApplication.Pages {
         protected global::System.Web.UI.WebControls.Label LabelMoviePlot;
         
         /// <summary>
-        /// LiteralMoviePlot control.
+        /// LabelPlot control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal LiteralMoviePlot;
+        protected global::System.Web.UI.WebControls.Label LabelPlot;
         
         /// <summary>
         /// ButtonMovieIMDB control.

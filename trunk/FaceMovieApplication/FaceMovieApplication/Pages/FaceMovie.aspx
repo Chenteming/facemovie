@@ -9,22 +9,22 @@
     <br />
     <table id="TableMovie" style="width: 80%;" runat="server">
         <tr>
-            <td>
+            <td colspan="2">
                 <asp:Label ID="LabelMovieName" runat="server" Font-Bold="True" 
                     Font-Size="XX-Large" Text="MovieName"></asp:Label>
             </td>
             <td>
                 &nbsp;</td>
             <td rowspan="4">
-                <asp:Image ID="ImageMovie" runat="server" />
+                <asp:Image ID="ImageMovie" runat="server" Height="250px" />
             </td>
         </tr>
         <tr>
             <td>
                 <asp:Label ID="LabelMovieGenre" runat="server" Font-Bold="True" Text="Género/s"></asp:Label>
             </td>
-            <td>
-                <asp:Literal ID="LiteralMovieGenre" runat="server"></asp:Literal>
+            <td align="left">
+                <asp:Label ID="LabelGenre" runat="server"></asp:Label>
             </td>
             <td>
                 &nbsp;</td>
@@ -34,8 +34,8 @@
                 <asp:Label ID="LabelMoviePlot" runat="server" Font-Bold="True" 
                     Text="Descripción"></asp:Label>
             </td>
-            <td>
-                <asp:Literal ID="LiteralMoviePlot" runat="server"></asp:Literal>
+            <td align="left">
+                <asp:Label ID="LabelPlot" runat="server"></asp:Label>
             </td>
             <td>
                 &nbsp;</td>
@@ -59,11 +59,8 @@
                     Text="¿Ya la viste? ¡Ranquéala!"></asp:Label>
             </td>
             <td>
-                &nbsp;</td>
-        </tr>
-        <tr>
-            <td>
-                <asp:RadioButtonList ID="RadioButtonListRanking" runat="server">
+                <asp:RadioButtonList ID="RadioButtonListRanking" runat="server" 
+                    RepeatDirection="Horizontal">
                     <asp:ListItem>1</asp:ListItem>
                     <asp:ListItem>2</asp:ListItem>
                     <asp:ListItem>3</asp:ListItem>
@@ -72,16 +69,27 @@
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp;</td>
-        </tr>
-        <tr>
-            <td>
                 <asp:Button ID="ButtonRank" runat="server" onclick="ButtonRank_Click" 
                     Text="Ranquear" />
             </td>
+        </tr>
+        <tr>
             <td>
-                <asp:Button ID="ButtonOK" runat="server" Text="No (ya la busco en Cuevana)" />
+                &nbsp;</td>
+            <td>
+                &nbsp;</td>
+            <td>
+                <asp:Button ID="ButtonOK" runat="server" Text="No (ya la busco en Cuevana)" 
+                    onclick="ButtonOK_Click" />
             </td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;</td>
+            <td>
+                &nbsp;</td>
+            <td>
+                &nbsp;</td>
         </tr>
     </table>
     <br />
