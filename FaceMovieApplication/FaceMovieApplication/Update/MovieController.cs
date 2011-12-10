@@ -86,12 +86,7 @@ namespace FaceMovieApplication.Update
             movie.MovieImageUrl = (string)jsonObject["Poster"];
             movie.MoviePlot = (string)jsonObject["Plot"];
             movie.MovieUrl = "www.imdb.com/title/" + (string)jsonObject["ID"];
-            string movieGenres = (string)jsonObject["Genre"];
-            if (movieGenres.Contains(","))
-            {
-                movieGenres = (movieGenres.Split(','))[0];
-            }
-            movie.MovieGenre = movieGenres;
+            movie.MovieGenre = (string)jsonObject["Genre"];
             return movie;
         }
 

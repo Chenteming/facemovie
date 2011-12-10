@@ -83,14 +83,17 @@ namespace FaceMovieApplication.Pages
                     try
                     {
                         dataMovie = mc.GetMovieCompleteInfoByTitle(movie.MovieName);
-                        LiteralMoviePlot.Text = dataMovie.MoviePlot;
+                        LabelPlot.Text = dataMovie.MoviePlot;
+                        LabelGenre.Text = dataMovie.MovieGenre;
                         ImageMovie.ImageUrl = dataMovie.MovieImageUrl;
                         LabelLinkIMDB.Text = dataMovie.MovieUrl;
                     }
                     catch
                     {
                         //// If no internet connection is available, data from the database is used
-                        LiteralMovieGenre.Text = movie.MovieGenre;
+                        LabelGenre.Text = movie.MovieGenre;
+                        LabelPlot.Text = "A true story about Frank Abagnale Jr. who, before his 19th birthday, successfully conned millions of dollars worth of checks as a Pan Am pilot, doctor, and legal prosecutor.";
+                        ImageMovie.ImageUrl = movie.MovieImageUrl;
                     }
                 }
                 catch
@@ -98,6 +101,13 @@ namespace FaceMovieApplication.Pages
                     throw new Exception("Error al obtener la Película");
                 }
             }
+        }
+
+        protected void ButtonOK_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("www.cuevana.tv");
+            movieId = 0;
+            HiddenFieldMovieId.Value = movieId.ToString();
         }
     }
 }
